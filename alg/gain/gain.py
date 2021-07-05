@@ -57,7 +57,7 @@ def init_arg():
     parser.add_argument(
         '-o', default='imputed.csv', help='output (csv) file')
     parser.add_argument(
-        '--it', default=1000, type=int, help='iterations')
+        '--it', default=10000, type=int, help='iterations')
     parser.add_argument(
         '--dataset',
         help='load one of the available/buildin datasets'
@@ -75,7 +75,7 @@ def init_arg():
     parser.add_argument(
         '--ref')
     parser.add_argument(
-        '--bs', default=128, type=int, help='batch size')
+        '--bs', default=1024, type=int, help='batch size')
     parser.add_argument(
         '--pmiss', default=0.2, type=float, help='missing rate')
     parser.add_argument(
@@ -85,9 +85,9 @@ def init_arg():
     parser.add_argument(
         '--T', type=float, help='Data type')
     parser.add_argument(
-        '--f', type=float, help='layer1')
+        '--f', type=float, default=1, help='layer1')
     parser.add_argument(
-        '--s', type=float, help='layer2')
+        '--s', default=1, type=float, help='layer2')
     parser.add_argument(
         '--alpha', default=10, type=float, help='')
     parser.add_argument(
@@ -96,6 +96,7 @@ def init_arg():
         '--verbose', default=0, type=int, help='')
     parser.add_argument(
         '--trainratio', default=0.8, type=float, help='')
+    parser.add_argument('--testfile')
     return parser.parse_args()
 
 
@@ -106,6 +107,7 @@ if __name__ == '__main__':
     fn_icsv = args.i
     fn_ref_csv = args.ref
     fn_ocsv = args.o
+    fn_test_file = args.testfile
     odir = os.path.dirname(fn_ocsv)
     odir = odir if len(odir) else '.'
     logger = utilmlab.init_logger(odir)
@@ -175,15 +177,27 @@ if __name__ == '__main__':
         features = dset['features']
         Data = dset['df'][dset['features']].values.astype(np.float)
 
-        
+    
+
+    if fn_test_file is not None:
+        test_df = pd.read_csv(fn_test_file)
+        test_features = list(test_df.columns)
+        if label is not None:
+            if label not in test_features:
+                print(test_features, label)
+                assert label in test_features
+            test_features.remove(label)
+        test_Data = test_df[test_features].values
+        test_Missing = np.where(np.isnan(test_Data), 0.0, 1.0)
+        test_Data = np.where(test_Missing, test_Data, 0)
     # Parameters
     No = len(Data)
     Dim = len(Data[0, :])
 
 
     # Hidden state dimensions
-    H_Dim1 = Dim
-    H_Dim2 = Dim
+    H_Dim1 = Dim/8
+    H_Dim2 = Dim/2
     
     #if ((first_hlayer == 1) and (second_hlayer == 1)):
     fh = 1/first_hlayer
@@ -261,7 +275,10 @@ if __name__ == '__main__':
         testX)
     Data = scaler.transform(
         Data)
-
+    
+    
+    test_Data = scaler.transform(test_Data)
+    real_test_No = len(test_Data)
     # Train / Test Missing/Mask Indicators (1 is not missing)
     trainM = Missing[idx[:Train_No], :]
     testM = Missing[idx[Train_No:], :]
@@ -367,13 +384,13 @@ if __name__ == '__main__':
     #%% Loss
     D_loss1 = -tf.reduce_mean(M * tf.log(D_prob + 1e-8) + (1-M) * tf.log(1. - D_prob + 1e-8)) 
     G_loss1 = -tf.reduce_mean((1-M) * tf.log(D_prob + 1e-8))
-    MSE_train_loss = tf.reduce_mean((M * New_X - M * G_sample)**2) / tf.reduce_mean(M)
+    MSE_train_loss = tf.reduce_mean(abs(M * New_X - M * G_sample)) / tf.reduce_mean(M)
     
     D_loss = D_loss1
-    G_loss = G_loss1 + alpha * MSE_train_loss 
+    G_loss = G_loss1 + alpha * 10 * MSE_train_loss #10*100 = 1000
     # print('hello')
     #%% MSE Performance metric
-    MSE_test_loss = tf.reduce_mean(((1-M) * X - (1-M)*G_sample)**2) / tf.reduce_mean(1-M)
+    MSE_test_loss = tf.reduce_mean(abs((1-M) * X - (1-M)*G_sample)) / tf.reduce_mean(1-M)
     
     #%% Solver
     D_solver = tf.train.AdamOptimizer().minimize(D_loss, var_list=theta_D)
@@ -386,7 +403,13 @@ if __name__ == '__main__':
     #%% Iterations
     arr_G=[]
     arr_D=[]
+    
+    loss_train = []
+    loss_test = []
     #%% Start Iterations
+    
+
+
     
     pbar = tqdm(range(niter))
     for it in pbar:    
@@ -409,27 +432,42 @@ if __name__ == '__main__':
                                                                            feed_dict = {X: X_mb, M: M_mb, New_X: New_X_mb, H: H_mb})
         arr_G.append(G_loss_curr)
         arr_D.append(D_loss_curr)
+        
+        Z_mb_test = sample_Z(Test_No, Dim)
+        M_mb_test = testM
+        X_mb_test = testX
+        testX_test = testX
+        testM_test = testM
+        
+        New_X_test = M_mb_test * X_mb_test + (1-M_mb_test) * Z_mb_test  # Missing Data Introduce
+        MSE_test_data, test_Sample = sess.run([MSE_train_loss, G_sample],
+                                     feed_dict={X: testX, M: testM, New_X: New_X_test})
+    
+        loss_train.append(MSE_train_loss_curr)
+        loss_test.append(MSE_test_data)
         #%% Intermediate Losses
         if it % 500 == 0:
             s = "{:6d}) loss train {:0.3f} test {:0.3f}".format(
                 it,
-                np.sqrt(MSE_train_loss_curr),
-                np.sqrt(MSE_test_loss_curr))
+                (MSE_train_loss_curr),
+                (MSE_test_data))
             pbar.clear()
             logger.info('{}'.format(s))
             pbar.set_description(s)
         
-        plt.plot(it, MSE_train_loss_curr, 'go', label='Training loss')
-        plt.plot(it, MSE_test_loss_curr, 'bo', label='Testing loss')
-        plt.title('Training loss Vs. Epochs')
-        plt. ylabel('MSE Loss')
-        plt. xlabel('epochs')
-        # plt.legend()
+        
         
         # plt.show()
         # plt.savefig('{}/loss.png'.format(odir))   
     #%% Final Loss
 
+    it_arr = range(0,niter)
+    plt.plot(it_arr, loss_train, 'go', label='Training loss')
+    plt.plot(it_arr, loss_test, 'bo', label='Testing loss')
+    plt.title('Training loss Vs. Epochs')
+    plt. ylabel('MSE Loss')
+    plt. xlabel('epochs')
+    plt.legend()
     if not test_all:
         Z_mb = sample_Z(Test_No, Dim)
         M_mb = testM
@@ -467,7 +505,22 @@ if __name__ == '__main__':
         df_imputed[[label]] = df[[label]]
 
     df_imputed.to_csv(fn_ocsv, index=False)
-
+    
+    Z_mb_test = sample_Z(real_test_No, Dim)
+    M_mb_test = test_Missing
+    X_mb_test = test_Data
+    testX_test = test_Data
+    testM_test = test_Missing
+        
+    New_X_test = M_mb_test * X_mb_test + (1-M_mb_test) * Z_mb_test  # Missing Data Introduce
+    MSE_test_data, test_Sample = sess.run([MSE_train_loss, G_sample],
+                                          feed_dict={X: testX_test, M: test_Missing, New_X: New_X_test})
+    
+    test_Sample = scaler.inverse_transform(test_Sample)
+    
+    df_test = pd.DataFrame(test_Sample, columns=features)
+    
+    df_test.to_csv('test_imputed_str.csv', index=False)
     # epochs = range(0, 5000)
     # plt.figure()
 
@@ -493,7 +546,7 @@ if __name__ == '__main__':
        plt.savefig('{0}/loss_Azh1={1}d_h2={2}d.png'.format(odir,fh,sh))
        
      
-    it_arr = range(0,niter)
+    
     plt.figure()
     plt.plot(it_arr, arr_G, 'go', label='G')
     plt.plot(it_arr, arr_D, 'bo', label='D')
