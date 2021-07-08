@@ -384,13 +384,21 @@ if __name__ == '__main__':
     #%% Loss
     D_loss1 = -tf.reduce_mean(M * tf.log(D_prob + 1e-8) + (1-M) * tf.log(1. - D_prob + 1e-8)) 
     G_loss1 = -tf.reduce_mean((1-M) * tf.log(D_prob + 1e-8))
-    MSE_train_loss = tf.reduce_mean(abs(M * New_X - M * G_sample)) / tf.reduce_mean(M)
+    if Type == 1:
+       MSE_train_loss = tf.reduce_mean(abs(M * New_X - M * G_sample)) / tf.reduce_mean(M)
+       
+    else:  
+       MSE_train_loss = tf.reduce_mean((M * New_X - M * G_sample)**2) / tf.reduce_mean(M)
     
     D_loss = D_loss1
-    G_loss = G_loss1 + alpha * 10 * MSE_train_loss #10*100 = 1000
+    G_loss = G_loss1 + alpha * 100 * MSE_train_loss #10*100 = 1000
     # print('hello')
     #%% MSE Performance metric
-    MSE_test_loss = tf.reduce_mean(abs((1-M) * X - (1-M)*G_sample)) / tf.reduce_mean(1-M)
+    if Type == 1:
+       MSE_test_loss = tf.reduce_mean(abs((1-M) * X - (1-M)*G_sample)) / tf.reduce_mean(1-M)
+       
+    else:
+       MSE_test_loss = tf.reduce_mean(((1-M) * X - (1-M)*G_sample)**2) / tf.reduce_mean(1-M)
     
     #%% Solver
     D_solver = tf.train.AdamOptimizer().minimize(D_loss, var_list=theta_D)
@@ -520,7 +528,19 @@ if __name__ == '__main__':
     
     df_test = pd.DataFrame(test_Sample, columns=features)
     
-    df_test.to_csv('test_imputed_str.csv', index=False)
+    #np.savetxt('test_imputed_str-h1={0}d_h2={1}d.csv'.format(fh,sh), df_test, delimiter=",")
+    if Type == 1:
+       df_test.to_csv('test_imputed_str.csv', index=False)
+    if Type == 2:
+       df_test.to_csv('test_imputed_Ax.csv', index=False)
+
+    if Type == 3:
+       df_test.to_csv('test_imputed_Ay.csv', index=False)
+
+    if Type == 4:
+       df_test.to_csv('test_imputed_Az.csv', index=False)
+
+    
     # epochs = range(0, 5000)
     # plt.figure()
 
