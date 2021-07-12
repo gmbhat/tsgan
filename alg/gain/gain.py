@@ -196,8 +196,8 @@ if __name__ == '__main__':
 
 
     # Hidden state dimensions
-    H_Dim1 = Dim/8
-    H_Dim2 = Dim/2
+    H_Dim1 = Dim
+    H_Dim2 = Dim
     
     #if ((first_hlayer == 1) and (second_hlayer == 1)):
     fh = 1/first_hlayer
@@ -497,7 +497,7 @@ if __name__ == '__main__':
     MSE_final, Sample = sess.run(
         [MSE_test_loss, G_sample],
         feed_dict={X: testX, M: testM, New_X: New_X_mb})
-    testX_imputed = np.where(testM < 1, Sample, testX)
+    testX_imputed = Sample # np.where(testM < 1, Sample, testX)
 
     testX_imputed = scaler.inverse_transform(testX_imputed)
     
