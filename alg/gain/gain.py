@@ -89,6 +89,8 @@ def init_arg():
     parser.add_argument(
         '--s', default=1, type=float, help='layer2')
     parser.add_argument(
+        '--t', default=1, type=float, help='layer3')
+    parser.add_argument(
         '--alpha', default=10, type=float, help='')
     parser.add_argument(
         '--autocategorical', default=1, type=int, help='')
@@ -119,6 +121,7 @@ if __name__ == '__main__':
     Type = args.T
     first_hlayer = args.f
     second_hlayer = args.s
+    third_hlayer = args.t
 
     alpha = args.alpha
     train_rate = args.trainratio
@@ -198,12 +201,15 @@ if __name__ == '__main__':
     # Hidden state dimensions
     H_Dim1 = Dim
     H_Dim2 = Dim
+    H_Dim3 = Dim
     
     #if ((first_hlayer == 1) and (second_hlayer == 1)):
     fh = 1/first_hlayer
     sh = 1/second_hlayer
+    th = 1/third_hlayer
     H_Dim1 = int(H_Dim1/first_hlayer)
     H_Dim2 = int(H_Dim2/second_hlayer)
+    H_Dim3 = int(H_Dim3/third_hlayer)
 
         
     # if Architcture == 2:
@@ -277,7 +283,7 @@ if __name__ == '__main__':
         Data)
     
     
-    test_Data = scaler.transform(test_Data)
+    test_Data = scaler.transform(Data) #changed "test_Data" to Data
     real_test_No = len(test_Data)
     # Train / Test Missing/Mask Indicators (1 is not missing)
     trainM = Missing[idx[:Train_No], :]
@@ -337,6 +343,9 @@ if __name__ == '__main__':
     G_W3 = tf.Variable(xavier_init([H_Dim2, Dim]), name='G_W3')
     G_b3 = tf.Variable(tf.zeros(shape = [Dim]), name='G_b3')
     
+    G_W4 = tf.Variable(xavier_init([H_Dim3, Dim]), name='G_W4')
+    G_b4 = tf.Variable(tf.zeros(shape = [Dim]), name='G_b4')
+    
     theta_G = [G_W1, G_W2, G_W3, G_b1, G_b2, G_b3]
     
     #%% GAIN Function
@@ -346,7 +355,8 @@ if __name__ == '__main__':
         inputs = tf.concat(axis = 1, values = [new_x,m])  # Mask + Data Concatenate
         G_h1 = tf.nn.relu(tf.matmul(inputs, G_W1) + G_b1)
         G_h2 = tf.nn.relu(tf.matmul(G_h1, G_W2) + G_b2)   
-        G_prob = tf.nn.sigmoid(tf.matmul(G_h2, G_W3) + G_b3) # [0,1] normalized Output
+        G_h3 = tf.nn.relu(tf.matmul(G_h2, G_W3) + G_b3)
+        G_prob = tf.nn.sigmoid(tf.matmul(G_h3, G_W4) + G_b4) # [0,1] normalized Output
         
         return G_prob
         
