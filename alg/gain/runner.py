@@ -1,44 +1,43 @@
 import os
+import pandas as pd
+import csv
+#import plotly.express as px
+import numpy as np
+import matplotlib.pyplot as plt 
+#import pyplot as plt
 
-print("enter command: ")
-command = input()
-
-if "-i all" in command:
-	command1 = command.replace("-i all", "-i stretch_missing_train.csv")
-	command1 = "cmd /k python gain.py " + command1
-	print("-------------- running stretch_missing_train.csv --------------")
-	os.system(command1)
-	print("-------------- done running stretch_missing_train.csv --------------")
-
-
-
-
-	command2 = command.replace("-i all", "-i accel_z_missing_train.csv")
-	command2 = "cmd /k python gain.py " + command2
-	print("-------------- running accel_z_missing_train --------------")
-	os.system(command2)
-	print("-------------- done running accel_z_missing_train.csv --------------")
+file_to_rename = "stretch_imputed_train.csv"
+print("-------------------------------------- stretch missing third layer 1 --------------------------------")
+os.system("python gain.py -i stretch_missing_train.csv -o stretch_imputed_train.csv --T 1 --f 8 --s 2 --t 1 --testfile stretch_missing_test.csv")
+os.rename(file_to_rename, "stretch_imputed_train_d3_1.csv")
+print("-------------------------------------- stretch missing third layer 1 --------------------------------")
 
 
+print()
 
 
+print("-------------------------------------- stretch missing third layer 2 --------------------------------")
+os.system("python gain.py -i stretch_missing_train.csv -o stretch_imputed_train.csv --T 1 --f 8 --s 2 --t 2 --testfile stretch_missing_test.csv")
+os.rename(file_to_rename, "stretch_imputed_train_d3_2.csv")
 
-	command3 = command.replace("-i all", "-i accel_y_missing_train.csv")
-	command3 = "cmd /k python gain.py " + command3
-	print("-------------- running accel_y_missing_train.csv --------------")
-	os.system(command3)
-	print("-------------- done running accel_y_missing_train.csv --------------")
-
+print("-------------------------------------- stretch missing third layer 2 --------------------------------")
 
 
+print()
 
 
-	command4 = command.replace("-i all", "-i accel_x_missing_train.csv")
-	command4 = "cmd /k python gain.py " + command4
-	print("-------------- running accel_x_missing_train.csv --------------")
-	os.system(command4)
-	print("-------------- done running accel_x_missing_train.csv --------------")
+print("-------------------------------------- stretch missing third layer 4 --------------------------------")
+os.system("python gain.py -i stretch_missing_train.csv -o stretch_imputed_train.csv --T 1 --f 8 --s 2 --t 4 --testfile stretch_missing_test.csv")
+os.rename(file_to_rename, "stretch_imputed_train_d3_4.csv")
 
-else:
-	command5 = "cmd /k python gain.py " + command
-	os.system(command5)
+print("-------------------------------------- stretch missing third layer 4 --------------------------------")
+
+
+print()
+
+
+print("-------------------------------------- stretch missing third layer 8 --------------------------------")
+os.system(" python gain.py -i stretch_missing_train.csv -o stretch_imputed_train.csv --T 1 --f 8 --s 2 --t 8 --testfile stretch_missing_test.csv")
+os.rename(file_to_rename, "stretch_imputed_train_d3_8.csv")
+print("-------------------------------------- stretch missing third layer 8 --------------------------------")
+print()

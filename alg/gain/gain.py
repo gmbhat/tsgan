@@ -57,7 +57,7 @@ def init_arg():
     parser.add_argument(
         '-o', default='imputed.csv', help='output (csv) file')
     parser.add_argument(
-        '--it', default=100, type=int, help='iterations')
+        '--it', default=4000, type=int, help='iterations')
     parser.add_argument(
         '--dataset',
         help='load one of the available/buildin datasets'
@@ -257,17 +257,17 @@ if __name__ == '__main__':
     range_scaler = (0, 1)
     scaler = MinMaxScaler(feature_range=range_scaler)
     if Type == 1:
-        np.savetxt('str_min_value-h1={0}d_h2={1}d.csv'.format(fh,sh), np.min(trainX, axis=0), delimiter=",")
-        np.savetxt('str_max_value-h1={0}d_h2={1}d.csv'.format(fh,sh), np.max(trainX, axis=0), delimiter=",")
+        np.savetxt('str_min_value-h1={0}d_h2={1}d_h3{2}d.csv'.format(fh,sh,th), np.min(trainX, axis=0), delimiter=",")
+        np.savetxt('str_max_value-h1={0}d_h2={1}d_h3{2}d.csv'.format(fh,sh,th), np.max(trainX, axis=0), delimiter=",")
     if Type == 2:
-        np.savetxt('Accel_x_min_value-h1={0}d_h2={1}d.csv'.format(fh,sh,th), np.min(trainX, axis=0), delimiter=",")
-        np.savetxt('Accel_x_max_value-h1={0}d_h2={1}d.csv'.format(fh,sh,th), np.max(trainX, axis=0), delimiter=",")
+        np.savetxt('Accel_x_min_value-h1={0}d_h2={1}d_h3{2}d.csv'.format(fh,sh,th), np.min(trainX, axis=0), delimiter=",")
+        np.savetxt('Accel_x_max_value-h1={0}d_h2={1}d_h3{2}d.csv'.format(fh,sh,th), np.max(trainX, axis=0), delimiter=",")
     if Type == 3:
-        np.savetxt('Accel_y_min_value-h1={0}d_h2={1}d.csv'.format(fh,sh,th), np.min(trainX, axis=0), delimiter=",")
-        np.savetxt('Accel_y_max_value-h1={0}d_h2={1}d.csv'.format(fh,sh,th), np.max(trainX, axis=0), delimiter=",")
+        np.savetxt('Accel_y_min_value-h1={0}d_h2={1}d_h3{2}d.csv'.format(fh,sh,th), np.min(trainX, axis=0), delimiter=",")
+        np.savetxt('Accel_y_max_value-h1={0}d_h2={1}d_h3{2}d.csv'.format(fh,sh,th), np.max(trainX, axis=0), delimiter=",")
     if Type == 4:
-        np.savetxt('Accel_z_min_value-h1={0}d_h2={1}d.csv'.format(fh,sh,th), np.min(trainX, axis=0), delimiter=",")
-        np.savetxt('Accel_z_max_value-h1={0}d_h2={1}d.csv'.format(fh,sh,th), np.max(trainX, axis=0), delimiter=",")
+        np.savetxt('Accel_z_min_value-h1={0}d_h2={1}d_h3{2}d.csv'.format(fh,sh,th), np.min(trainX, axis=0), delimiter=",")
+        np.savetxt('Accel_z_max_value-h1={0}d_h2={1}d_h3{2}d.csv'.format(fh,sh,th), np.max(trainX, axis=0), delimiter=",")
     
     scaler.fit(trainX)
 
@@ -283,10 +283,9 @@ if __name__ == '__main__':
         Data)
     
     
-    test_Data = scaler.transform(Data) #changed "test_Data" to Data
+    test_Data = scaler.transform(test_Data) #changed "test_Data" to Data
     real_test_No = len(test_Data) 
-    print("-------------real_test------------------------------") #look back ---------------------------------------------------------------------------------------------
-    print(real_test_No)
+
     # Train / Test Missing/Mask Indicators (1 is not missing)
     trainM = Missing[idx[:Train_No], :]
     testM = Missing[idx[Train_No:], :]
@@ -574,16 +573,16 @@ if __name__ == '__main__':
     
     # # plt.show()
     if Type == 1:
-       plt.savefig('{0}/loss_strh1={1}d_h2={2}d.png'.format(odir,fh,sh,th))
+       plt.savefig('{0}/loss_strh1={1}d_h2={2}d_h3{3}d.png'.format(odir,fh,sh,th))
        
     if Type == 2:
-       plt.savefig('{0}/loss_Axh1={1}d_h2={2}d.png'.format(odir,fh,sh,th))
+       plt.savefig('{0}/loss_Axh1={1}d_h2={2}d_h3{3}d.png'.format(odir,fh,sh,th))
        
     if Type == 3:
-       plt.savefig('{0}/loss_Ayh1={1}d_h2={2}d.png'.format(odir,fh,sh,th))
+       plt.savefig('{0}/loss_Ayh1={1}d_h2={2}d_h3{3}d.png'.format(odir,fh,sh,th))
        
     if Type == 4:
-       plt.savefig('{0}/loss_Azh1={1}d_h2={2}d.png'.format(odir,fh,sh,th))
+       plt.savefig('{0}/loss_Azh1={1}d_h2={2}d_h3{3}d.png'.format(odir,fh,sh,th))
        
      
     
@@ -596,19 +595,19 @@ if __name__ == '__main__':
     plt.legend()
     if Type == 1:
 
-       plt.savefig('{0}/crossLoss_strh1={1}d_h2={2}d.png'.format(odir,fh,sh,th))
+       plt.savefig('{0}/crossLoss_strh1={1}d_h2={2}d_h3{3}d.png'.format(odir,fh,sh,th))
      
     if Type == 2:
 
-       plt.savefig('{0}/crossLoss_Axh1={1}d_h2={2}d.png'.format(odir,fh,sh,th))
+       plt.savefig('{0}/crossLoss_Axh1={1}d_h2={2}d_h3{3}d.png'.format(odir,fh,sh,th))
        
     if Type == 3:
 
-       plt.savefig('{0}/crossLoss_Ayh1={1}d_h2={2}d.png'.format(odir,fh,sh,th))
+       plt.savefig('{0}/crossLoss_Ayh1={1}d_h2={2}d_h3{3}d.png'.format(odir,fh,sh,th))
        
     if Type == 4:
 
-       plt.savefig('{0}/crossLoss_Azh1={1}d_h2={2}d.png'.format(odir,fh,sh,th))
+       plt.savefig('{0}/crossLoss_Azh1={1}d_h2={2}d_h3{3}d.png'.format(odir,fh,sh,th))
 
     # for x in arr_G:
     #     print(x)
@@ -639,39 +638,39 @@ if __name__ == '__main__':
     
     if Type == 1:
 
-        np.savetxt('G_W1_str-h1={0}d_h2={1}d.csv'.format(fh,sh,th), G_W1_save, delimiter=",")
-        np.savetxt('G_b1_str-h1={0}d_h2={1}d.csv'.format(fh,sh,th), G_b1_save, delimiter=",")
-        np.savetxt('G_W2_str-h1={0}d_h2={1}d.csv'.format(fh,sh,th), G_W2_save, delimiter=",")
-        np.savetxt('G_b2_str-h1={0}d_h2={1}d.csv'.format(fh,sh,th), G_b2_save, delimiter=",")
-        np.savetxt('G_W3_str-h1={0}d_h2={1}d.csv'.format(fh,sh,th), G_W3_save, delimiter=",")
-        np.savetxt('G_b3_str-h1={0}d_h2={1}d.csv'.format(fh,sh,th), G_b3_save, delimiter=",")
+        np.savetxt('G_W1_str-h1={0}d_h2={1}d_h3={2}d.csv'.format(fh,sh,th), G_W1_save, delimiter=",")
+        np.savetxt('G_b1_str-h1={0}d_h2={1}d_h3={2}d.csv'.format(fh,sh,th), G_b1_save, delimiter=",")
+        np.savetxt('G_W2_str-h1={0}d_h2={1}d_h3={2}d.csv'.format(fh,sh,th), G_W2_save, delimiter=",")
+        np.savetxt('G_b2_str-h1={0}d_h2={1}d_h3={2}d.csv'.format(fh,sh,th), G_b2_save, delimiter=",")
+        np.savetxt('G_W3_str-h1={0}d_h2={1}d_h3={2}d.csv'.format(fh,sh,th), G_W3_save, delimiter=",")
+        np.savetxt('G_b3_str-h1={0}d_h2={1}d_h3={2}d.csv'.format(fh,sh,th), G_b3_save, delimiter=",")
     ####
     if Type == 2:
 
-        np.savetxt('G_W1_accel_x-h1={0}d_h2={1}d.csv'.format(fh,sh,th), G_W1_save, delimiter=",")
-        np.savetxt('G_b1_accel_x-h1={0}d_h2={1}d.csv'.format(fh,sh,th), G_b1_save, delimiter=",")
-        np.savetxt('G_W2_accel_x-h1={0}d_h2={1}d.csv'.format(fh,sh,th), G_W2_save, delimiter=",")
-        np.savetxt('G_b2_accel_x-h1={0}d_h2={1}d.csv'.format(fh,sh,th), G_b2_save, delimiter=",")
-        np.savetxt('G_W3_accel_x-h1={0}d_h2={1}d.csv'.format(fh,sh,th), G_W3_save, delimiter=",")
-        np.savetxt('G_b3_accel_x-h1={0}d_h2={1}d.csv'.format(fh,sh,th), G_b3_save, delimiter=",")
+        np.savetxt('G_W1_accel_x-h1={0}d_h2={1}d_h3={2}d.csv'.format(fh,sh,th), G_W1_save, delimiter=",")
+        np.savetxt('G_b1_accel_x-h1={0}d_h2={1}d_h3={2}d.csv'.format(fh,sh,th), G_b1_save, delimiter=",")
+        np.savetxt('G_W2_accel_x-h1={0}d_h2={1}d_h3={2}d.csv'.format(fh,sh,th), G_W2_save, delimiter=",")
+        np.savetxt('G_b2_accel_x-h1={0}d_h2={1}d_h3={2}d.csv'.format(fh,sh,th), G_b2_save, delimiter=",")
+        np.savetxt('G_W3_accel_x-h1={0}d_h2={1}d_h3={2}d.csv'.format(fh,sh,th), G_W3_save, delimiter=",")
+        np.savetxt('G_b3_accel_x-h1={0}d_h2={1}d_h3={2}d.csv'.format(fh,sh,th), G_b3_save, delimiter=",")
     
     if Type == 3:
 
-        np.savetxt('G_W1_accel_y-h1={0}d_h2={1}d.csv'.format(fh,sh,th), G_W1_save, delimiter=",")
-        np.savetxt('G_b1_accel_y-h1={0}d_h2={1}d.csv'.format(fh,sh,th), G_b1_save, delimiter=",")
-        np.savetxt('G_W2_accel_y-h1={0}d_h2={1}d.csv'.format(fh,sh,th), G_W2_save, delimiter=",")
-        np.savetxt('G_b2_accel_y-h1={0}d_h2={1}d.csv'.format(fh,sh,th), G_b2_save, delimiter=",")
-        np.savetxt('G_W3_accel_y-h1={0}d_h2={1}d.csv'.format(fh,sh,th), G_W3_save, delimiter=",")
-        np.savetxt('G_b3_accel_y-h1={0}d_h2={1}d.csv'.format(fh,sh,th), G_b3_save, delimiter=",")
+        np.savetxt('G_W1_accel_y-h1={0}d_h2={1}d_h3={2}d.csv'.format(fh,sh,th), G_W1_save, delimiter=",")
+        np.savetxt('G_b1_accel_y-h1={0}d_h2={1}d_h3={2}d.csv'.format(fh,sh,th), G_b1_save, delimiter=",")
+        np.savetxt('G_W2_accel_y-h1={0}d_h2={1}d_h3={2}d.csv'.format(fh,sh,th), G_W2_save, delimiter=",")
+        np.savetxt('G_b2_accel_y-h1={0}d_h2={1}d_h3={2}d.csv'.format(fh,sh,th), G_b2_save, delimiter=",")
+        np.savetxt('G_W3_accel_y-h1={0}d_h2={1}d_h3={2}d.csv'.format(fh,sh,th), G_W3_save, delimiter=",")
+        np.savetxt('G_b3_accel_y-h1={0}d_h2={1}d_h3={2}d.csv'.format(fh,sh,th), G_b3_save, delimiter=",")
         
     if Type == 4:
 
-        np.savetxt('G_W1_accel_z-h1={0}d_h2={1}d.csv'.format(fh,sh,th), G_W1_save, delimiter=",")
-        np.savetxt('G_b1_accel_z-h1={0}d_h2={1}d.csv'.format(fh,sh,th), G_b1_save, delimiter=",")
-        np.savetxt('G_W2_accel_z-h1={0}d_h2={1}d.csv'.format(fh,sh,th), G_W2_save, delimiter=",")
-        np.savetxt('G_b2_accel_z-h1={0}d_h2={1}d.csv'.format(fh,sh,th), G_b2_save, delimiter=",")
-        np.savetxt('G_W3_accel_z-h1={0}d_h2={1}d.csv'.format(fh,sh,th), G_W3_save, delimiter=",")
-        np.savetxt('G_b3_accel_z-h1={0}d_h2={1}d.csv'.format(fh,sh,th), G_b3_save, delimiter=",")
+        np.savetxt('G_W1_accel_z-h1={0}d_h2={1}d_h3={2}d.csv'.format(fh,sh,th), G_W1_save, delimiter=",")
+        np.savetxt('G_b1_accel_z-h1={0}d_h2={1}d_h3={2}d.csv'.format(fh,sh,th), G_b1_save, delimiter=",")
+        np.savetxt('G_W2_accel_z-h1={0}d_h2={1}d_h3={2}d.csv'.format(fh,sh,th), G_W2_save, delimiter=",")
+        np.savetxt('G_b2_accel_z-h1={0}d_h2={1}d_h3={2}d.csv'.format(fh,sh,th), G_b2_save, delimiter=",")
+        np.savetxt('G_W3_accel_z-h1={0}d_h2={1}d_h3={2}d.csv'.format(fh,sh,th), G_W3_save, delimiter=",")
+        np.savetxt('G_b3_accel_z-h1={0}d_h2={1}d_h3={2}d.csv'.format(fh,sh,th), G_b3_save, delimiter=",")
 
     print(scaler.get_params())
     # save scaler
