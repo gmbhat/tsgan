@@ -57,7 +57,7 @@ def init_arg():
     parser.add_argument(
         '-o', default='imputed.csv', help='output (csv) file')
     parser.add_argument(
-        '--it', default=4000, type=int, help='iterations')
+        '--it', default=1, type=int, help='iterations')
     parser.add_argument(
         '--dataset',
         help='load one of the available/buildin datasets'
