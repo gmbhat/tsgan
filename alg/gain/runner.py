@@ -94,7 +94,7 @@ file_to_rename = "accel_y_imputed_train.csv"
 
 for dimension in dimensionsTested:
 	print("-------------------------------------- accel_y_test third layer d/"+str(dimension)+" --------------------------------")
-	string1 = "python gain.py -i accel_y_train.csv -o accel_y_imputed_train.csv --T 2 --f 1 --s 1 --t " + str(dimension) + " --testfile accel_y_test.csv"
+	string1 = "python gain.py -i accel_y_train.csv -o accel_y_imputed_train.csv --T 3 --f 1 --s 1 --t " + str(dimension) + " --testfile accel_y_test.csv"
 	os.system(string1)
 	string2 = "accel_y_imputed_train_d3_"+str(dimension)+".csv"
 	os.rename(file_to_rename, string2)
@@ -156,7 +156,7 @@ file_to_rename = "accel_z_imputed_train.csv"
 
 for dimension in dimensionsTested:
 	print("-------------------------------------- accel_z_test third layer d/"+str(dimension)+" --------------------------------")
-	string1 = "python gain.py -i accel_z_train.csv -o accel_z_imputed_train.csv --T 2 --f 1 --s 1 --t " + str(dimension) + " --testfile accel_z_test.csv"
+	string1 = "python gain.py -i accel_z_train.csv -o accel_z_imputed_train.csv --T 4 --f 1 --s 1 --t " + str(dimension) + " --testfile accel_z_test.csv"
 	os.system(string1)
 	string2 = "accel_z_imputed_train_d3_"+str(dimension)+".csv"
 	os.rename(file_to_rename, string2)
@@ -219,7 +219,7 @@ file_to_rename = "stretch_imputed_train.csv"
 
 for dimension in dimensionsTested:
 	print("-------------------------------------- stretch_test third layer d/"+str(dimension)+" --------------------------------")
-	string1 = "python gain.py -i stretch_missing_train.csv -o stretch_imputed_train.csv --T 2 --f 1 --s 1 --t " + str(dimension) + " --testfile stretch_missing_test.csv"
+	string1 = "python gain.py -i stretch_missing_train.csv -o stretch_imputed_train.csv --T 1 --f 1 --s 1 --t " + str(dimension) + " --testfile stretch_missing_test.csv"
 	os.system(string1)
 	string2 = "stretch_imputed_train_d3_"+str(dimension)+".csv"
 	os.rename(file_to_rename, string2)
@@ -242,11 +242,11 @@ for dimension in dimensionsTested:
 		imputedCSV = stringToList(imputedCSV)
 		imputedCSV = list(map(float, imputedCSV))
 
-		refereceCSV = linecache.getline('stretch_train_ref.csv',plotWindow)
+		refereceCSV = linecache.getline('stretch_ref_train.csv',plotWindow)
 		refereceCSV = stringToList(refereceCSV)
 		refereceCSV = list(map(float, refereceCSV))
 
-		missngCSV = linecache.getline('stretch_train.csv',plotWindow) #csv.reader('stretch_missing_train.csv')
+		missngCSV = linecache.getline('stretch_missing_train.csv',plotWindow) #csv.reader('stretch_missing_train.csv')
 		missngCSV = stringToList(missngCSV)
 		missngCSV = list(map(float, missngCSV))
 
