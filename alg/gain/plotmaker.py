@@ -8,24 +8,24 @@ def stringToList(string):
     listRes = list(string.split(","))
     return listRes
 
-lineNumber = 2613
-#lineNumber = 2850
+#lineNumber = 2613
+lineNumber = 2906
 
-imputedCSV = linecache.getline('stretch_imputed_train.csv',lineNumber)
+imputedCSV = linecache.getline('accel_z_imputed_train.csv',lineNumber)
 imputedCSV = stringToList(imputedCSV)
 imputedCSV = list(map(float, imputedCSV))
 print("-------------------------------------------------------- length of imputed = " +str(len(imputedCSV)))
 
-refereceCSV = linecache.getline('stretch_ref_train.csv',lineNumber)
+refereceCSV = linecache.getline('accel_z_train_ref.csv',lineNumber)
 refereceCSV = stringToList(refereceCSV)
 refereceCSV = list(map(float, refereceCSV))
 
-missngCSV = linecache.getline('stretch_missing_train.csv',lineNumber) #csv.reader('stretch_missing_train.csv')
+missngCSV = linecache.getline('accel_z_train.csv',lineNumber) #csv.reader('stretch_missing_train.csv')
 missngCSV = stringToList(missngCSV)
 missngCSV = list(map(float, missngCSV))
 
 
-df=pd.DataFrame({'x_values': range(1,72), 'reference': refereceCSV, 'imputed': imputedCSV, 'missing': missngCSV})
+df=pd.DataFrame({'x_values': range(1,184), 'reference': refereceCSV, 'imputed': imputedCSV, 'missing': missngCSV})
  
 # multiple line plots
 plt.plot( 'x_values', 'reference', data=df, marker='', markerfacecolor='blue',  linewidth=2)
