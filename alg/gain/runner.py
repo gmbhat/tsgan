@@ -20,7 +20,7 @@ windows = [2956, 2905, 2347, 2298]
 dimensionsTested1 = [1, 2, 4, 8]
 dimensionsTested2 = [1, 2, 4, 8]
 dimensionsTested3 = [1, 2, 4, 8]
-epoches = [500, 1000, 1500, 2000, 2500, 3000, 4000, 5000, 7000, 10000]
+epoches = [500, 1000, 1500, 2000, 2500, 3000, 3500]
 
 
 
