@@ -13,8 +13,8 @@ import linecache
 
 
 
-epoches = [500, 1000, 1500, 2000, 2500, 3000]
-windows = [2956, 2905, 2347, 2298]
+epoches = [500, 1000, 1500, 2000, 2500, 3000, 3500]
+windows = [2425, 2474, 2546, 2612, 2849, 2905, 2956, 2988]
 dimensionsTested1 = [1, 2, 4, 8]
 dimensionsTested2 = [1, 2, 4, 8]
 dimensionsTested3 = [1, 2, 4, 8]
@@ -55,11 +55,12 @@ with open('accel_x_accuracy.csv', 'w') as csvfile:
 						normalizedError = 0
 						for point in imputedCSV:
 							error = error + ((refereceCSV[counter] - point)*(refereceCSV[counter] - point))
-							normalizedError = normalizedError + (refereceCSV[counter]*refereceCSV[counter])
+							#normalizedError = normalizedError + (refereceCSV[counter]*refereceCSV[counter])
+							normalizedError = normalizedError + (point * point)
 							counter = counter + 1
 
 						
-						filewriter.writerow([epoch, dimension1, dimension2, dimension3, window, error, normalizedError])
+						filewriter.writerow([epoch, dimension1, dimension2, dimension3, window, error, error/normalizedError])
 
 
 
