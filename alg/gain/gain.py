@@ -204,7 +204,7 @@ if __name__ == '__main__':
     H_Dim3 = Dim
     
     #if ((first_hlayer == 1) and (second_hlayer == 1)):
-    fh = first_hlayer
+    #fh = first_hlayer
     fh = 1/first_hlayer
     sh = 1/second_hlayer
     th = 1/third_hlayer
