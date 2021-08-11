@@ -43,19 +43,18 @@ def stringToList(string):
     listRes = list(string.split(","))
     return listRes
 
-windows = [2546]
-#100, 200, 500, 1000, 1500, 2000, 2500, 3000, 4000, 5000
-dimensionsTested1 = [2]
-dimensionsTested2 = [8]
-dimensionsTested3 = [8]
-epoches = [3000]
+epoches = [500, 1000, 1500, 2000, 2500, 3000, 3500]
+windows = [2905, 2956]
+dimensionsTested1 = [1, 2, 4, 8]
+dimensionsTested2 = [1, 2, 4, 8]
+dimensionsTested3 = [1, 2, 4, 8]
 
 
 for epoch in epoches:
 	for dimension1 in dimensionsTested1:
 		for dimension2 in dimensionsTested2:
 			for dimension3 in dimensionsTested3:
-				string2 = "Data from mass run\\accel_x_imputed_train_d1_" + str(dimension1) + "_d2_"+ str(dimension2) + "_d3_"+str(dimension3)+"_epoches_"+str(epoch)+".csv"
+				string2 = "Data from mass run\\gain generated data\\accel_x_imputed_train_d1_" + str(dimension1) + "_d2_"+ str(dimension2) + "_d3_"+str(dimension3)+"_epoches_"+str(epoch)+".csv"
 
 				for plotWindow in windows: 
 					plt = None
