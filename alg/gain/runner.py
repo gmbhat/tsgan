@@ -17,10 +17,10 @@ def stringToList(string):
 
 windows = [2956, 2905, 2347, 2298]
 #100, 200, 500, 1000, 1500, 2000, 2500, 3000, 4000, 5000
-dimensionsTested1 = [1, 2, 4, 8]
-dimensionsTested2 = [1, 2, 4, 8]
-dimensionsTested3 = [1, 2, 4, 8]
-epoches = [500, 1000, 1500, 2000, 2500, 3000, 3500]
+dimensionsTested1 = [8, 10, 12, 16, 18, 20]
+dimensionsTested2 = [8, 10, 12, 16, 18, 20]
+dimensionsTested3 = [8, 10, 12, 16, 18, 20]
+epoches = [3000]
 
 
 
