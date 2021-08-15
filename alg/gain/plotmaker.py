@@ -44,10 +44,10 @@ def stringToList(string):
     return listRes
 
 epoches = [3000]
-windows = [454]
-dimensionsTested1 = [12]
+windows = [2494]
+dimensionsTested1 = [18]
 dimensionsTested2 = [12]
-dimensionsTested3 = [8]
+dimensionsTested3 = [18]
 
 
 for epoch in epoches:

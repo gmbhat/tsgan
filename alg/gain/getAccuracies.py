@@ -11,6 +11,7 @@ import csv
 import linecache
 import math
 import statistics
+from sklearn.metrics import mean_squared_error
 
 
 
@@ -42,7 +43,7 @@ def multiplyList(list, meanToHundred):
 
 with open('accel_x_accuracy.csv', 'w') as csvfile:
 	filewriter = csv.writer(csvfile)
-	filewriter.writerow(["Epochs", "d1", "d2", "d3", "missing percent", "Activity", "Average MSE"])
+	filewriter.writerow(["Epochs", "d1", "d2", "d3", "missing percent", "Activity", "Average MSE", "Average percent difference"])
 
 
 
@@ -84,9 +85,10 @@ with open('accel_x_accuracy.csv', 'w') as csvfile:
 				for dimension3 in dimensionsTested3:
 					for windowsIndex in range(8):
 						AverageMSE = 0
+						percentDiff = 0
 						string2 = "Mass run small architectures\\accel_x_imputed_train_d1_" + str(dimension1) + "_d2_"+ str(dimension2) + "_d3_"+str(dimension3)+"_epoches_"+str(epoch)+".csv"
 						for currWindow in range(windows[windowsIndex], windows[windowsIndex+1] - 1):
-							MSEsums = 0
+							# MSEsums = 0
 
 							imputedCSV = linecache.getline(string2, currWindow)
 							imputedCSV = stringToList(imputedCSV)
@@ -103,9 +105,11 @@ with open('accel_x_accuracy.csv', 'w') as csvfile:
 
 							counter = 0
 							for point in imputedCSV:
-								MSEsums = MSEsums + ((refereceCSV[int(counter)] - point)*(refereceCSV[int(counter)] - point))
+								percentDiff = percentDiff + (math.fabs(((refereceCSV[int(counter)] - point) / ((refereceCSV[int(counter)] + point)/2)))*100)
 								counter = counter + 1
-							AverageMSE = AverageMSE + MSEsums/counter
+							# AverageMSE = AverageMSE + MSEsums/counter
+							percentDiff = percentDiff / counter
+							AverageMSE = AverageMSE + mean_squared_error(refereceCSV, imputedCSV)
 
 						AverageMSE = AverageMSE / (windows[windowsIndex] - windows[windowsIndex+1] -1)
 
@@ -114,7 +118,7 @@ with open('accel_x_accuracy.csv', 'w') as csvfile:
 						trainOrder = list(map(float, trainOrder))
 						windowsIndex = windowsIndex + 1
 
-						filewriter.writerow([epoch, dimension1, dimension2, dimension3, trainOrder[1], trainOrder[2], math.fabs(AverageMSE)])
+						filewriter.writerow([epoch, dimension1, dimension2, dimension3, trainOrder[1], trainOrder[2], math.fabs(AverageMSE), percentDiff])
  
 
 
