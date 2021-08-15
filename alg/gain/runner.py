@@ -20,7 +20,7 @@ windows = [2956, 2905, 2347, 2298]
 dimensionsTested1 = [8, 10, 12, 16, 18, 20]
 dimensionsTested2 = [8, 10, 12, 16, 18, 20]
 dimensionsTested3 = [8, 10, 12, 16, 18, 20]
-epoches = [3000]
+epoches = [2000, 4000, 5000, 6000, 8000, 10000]
 
 
 
@@ -35,12 +35,12 @@ for epoch in epoches:
 	for dimension1 in dimensionsTested1:
 		for dimension2 in dimensionsTested2:
 			for dimension3 in dimensionsTested3:
-				print("-------------------------------------- accel_x_test third layer d/"+str(dimension3)+" --------------------------------")
+				print("-------------------------------------- accel_x_test epochs=" + str(epoch) + " 1st layer=" + str(dimension1)+" 2nd layer="+str(dimension2)+" 3rd layer=d/"+str(dimension3)+" --------------------------------")
 				string1 = "python gain.py -i accel_x_train.csv -o accel_x_imputed_train.csv --it " + str(epoch) + " --T 2 --f " + str(dimension1) + " --s " + str(dimension2) +" --t " + str(dimension3) + " --testfile accel_x_test.csv"
 				os.system(string1)
 				string2 = "accel_x_imputed_train_d1_" + str(dimension1) + "_d2_"+ str(dimension2) + "_d3_"+str(dimension3)+"_epoches_"+str(epoch)+".csv"
 				os.rename(file_to_rename, string2)
-				print("-------------------------------------- accel_x_test third layer d/"+str(dimension3)+" --------------------------------")
+				print("-------------------------------------- accel_x_test epochs=" + str(epoch) + " 1st layer=" + str(dimension1)+" 2nd layer="+str(dimension2)+" 3rd layer=d/"+str(dimension3)+" --------------------------------")
 				# for plotWindow in windows: 
 				# 	plt = None
 				# 	imputedCSV = None
