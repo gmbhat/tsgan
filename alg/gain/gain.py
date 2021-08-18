@@ -25,6 +25,9 @@ import utilmlab
 import data_loader_mlab
 import joblib 
 from math import log2
+import optimizer
+df_ref = []
+
 
 def normalize_array(a):
     Dim = a.shape[1]
@@ -471,7 +474,7 @@ if __name__ == '__main__':
         loss_train.append(MSE_train_loss_curr)
         loss_test.append(MSE_test_data)
         #%% Intermediate Losses
-        if it % 500 == 0:
+        if it % 500 == 1:
             s = "{:6d}) loss train {:0.3f} test {:0.3f}".format(
                 it,
                 (MSE_train_loss_curr),
@@ -479,6 +482,7 @@ if __name__ == '__main__':
             pbar.clear()
             logger.info('{}'.format(s))
             pbar.set_description(s)
+            optimizer.optimizer(test_all, Dim, testM, testX, No, Missing, Data, fn_ref_csv, New_X_mb, MSE_test_loss, G_sample, New_X, prop_df_one_hot, is_auto_categorical, pd, label, df, features, fn_ocsv, real_test_No, test_Missing, test_Data, MSE_train_loss, X, scaler, Type, H_Dim1, H_Dim2, H_Dim3, it, utilmlab, sess, logger, df_ref, M, Test_No, z_sample, np)
         
         
         
@@ -615,7 +619,7 @@ if __name__ == '__main__':
     #     print(x)
     # calculate cross entropy
     # def cross_entropy(p, q):
-    # 	   return -sum([p[i]*log2(q[i]) for i in range(len(p))])
+    #      return -sum([p[i]*log2(q[i]) for i in range(len(p))])
 
     # ce_pq = cross_entropy(arr_G, arr_D)
     # print('H(P, Q): %.3f bits' % ce_pq)
