@@ -43,11 +43,11 @@ def stringToList(string):
     listRes = list(string.split(","))
     return listRes
 
-epoches = [3000]
-windows = [2494]
-dimensionsTested1 = [18]
-dimensionsTested2 = [12]
-dimensionsTested3 = [18]
+windows = [2414, 2447, 2504, 2562, 2628, 2887, 2947, 2982]
+dimensionsTested1 = [8, 10, 12, 16, 18, 20]
+dimensionsTested2 = [8, 10, 12, 16, 18, 20]
+dimensionsTested3 = [8, 10, 12, 16, 18, 20]
+epoches = [10000]
 
 
 for epoch in epoches:
@@ -73,10 +73,16 @@ for epoch in epoches:
 					imputedCSV = linecache.getline(string2, plotWindow)
 					imputedCSV = stringToList(imputedCSV)
 					imputedCSV = list(map(float, imputedCSV))
+					minimum = min(imputedCSV)
+					maximim = max(imputedCSV)
 
 					refereceCSV = linecache.getline('accel_x_train_ref.csv',plotWindow)
 					refereceCSV = stringToList(refereceCSV)
 					refereceCSV = list(map(float, refereceCSV))
+					if(min(refereceCSV) < minimum):
+						minimum = min(refereceCSV)
+					if(max(refereceCSV) > maximim):
+						maximim = max(refereceCSV)
 
 					missngCSV = linecache.getline('accel_x_train.csv',plotWindow) #csv.reader('stretch_missing_train.csv')
 					missngCSV = stringToList(missngCSV)
@@ -98,6 +104,7 @@ for epoch in epoches:
 					pltTitle = 'accel_x'+' missing_'+str(int(missing_data_percent*100))+' activity_'+str(int(activity))+' d1=' + str(dimension1) + ' d2='+ str(dimension2) + ' d3=' + str(dimension3) + ' window=' + str(plotWindow) + ' epoches' + str(epoch)
 					plt.title(pltTitle)
 					plt.legend()
+					plt.ylim(minimum*5, maximim*5)
 					#pltName = 'accel_x_d3_'+str(dimension)+'_missing_'+str(missing_data_percent)+'_activity_'+str(activity)
 					#plt.set_title(pltName)
 					pltName = pltTitle+'.png'
