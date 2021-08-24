@@ -207,12 +207,12 @@ if __name__ == '__main__':
     H_Dim3 = Dim
     
     #if ((first_hlayer == 1) and (second_hlayer == 1)):
-    #fh = first_hlayer
+    fh = first_hlayer
     fh = 1/first_hlayer
     sh = 1/second_hlayer
     th = 1/third_hlayer
-    #H_Dim1 = int(4)
-    H_Dim1 = int(H_Dim1/first_hlayer)
+    H_Dim1 = int(4)
+    #H_Dim1 = int(H_Dim1/first_hlayer)
     H_Dim2 = int(H_Dim2/second_hlayer)
     H_Dim3 = int(H_Dim3/third_hlayer)
 
@@ -482,7 +482,7 @@ if __name__ == '__main__':
             pbar.clear()
             logger.info('{}'.format(s))
             pbar.set_description(s)
-            optimizer.optimizer(test_all, Dim, testM, testX, No, Missing, Data, fn_ref_csv, New_X_mb, MSE_test_loss, G_sample, New_X, prop_df_one_hot, is_auto_categorical, pd, label, df, features, fn_ocsv, real_test_No, test_Missing, test_Data, MSE_train_loss, X, scaler, Type, H_Dim1, H_Dim2, H_Dim3, it, utilmlab, sess, logger, df_ref, M, Test_No, z_sample, np)
+            optimizer.optimizer(test_all, Dim, testM, testX, No, Missing, Data, fn_ref_csv, New_X_mb, MSE_test_loss, G_sample, New_X, prop_df_one_hot, is_auto_categorical, pd, label, df, features, fn_ocsv, real_test_No, test_Missing, test_Data, MSE_train_loss, X, scaler, Type, H_Dim1, second_hlayer, third_hlayer, it, utilmlab, sess, logger, df_ref, M, Test_No, z_sample, np)
         
         
         
@@ -490,80 +490,80 @@ if __name__ == '__main__':
         # plt.savefig('{}/loss.png'.format(odir))   
     #%% Final Loss
 
-    it_arr = range(0,niter)
-    plt.plot(it_arr, loss_train, 'go', label='Training loss')
-    plt.plot(it_arr, loss_test, 'bo', label='Testing loss')
-    plt.title('Training loss Vs. Epochs')
-    plt. ylabel('MSE Loss')
-    plt. xlabel('epochs')
-    plt.legend()
-    if not test_all:
-        Z_mb = sample_Z(Test_No, Dim)
-        M_mb = testM
-        X_mb = testX
-    else:
-        Z_mb = sample_Z(No, Dim)
-        M_mb = Missing
-        X_mb = Data
-        if fn_ref_csv:
-            testX = df_ref[features].values
-        else:
-            testX = Data
-        testM = Missing
+   #  it_arr = range(0,niter)
+   #  plt.plot(it_arr, loss_train, 'go', label='Training loss')
+   #  plt.plot(it_arr, loss_test, 'bo', label='Testing loss')
+   #  plt.title('Training loss Vs. Epochs')
+   #  plt. ylabel('MSE Loss')
+   #  plt. xlabel('epochs')
+   #  plt.legend()
+   #  if not test_all:
+   #      Z_mb = sample_Z(Test_No, Dim)
+   #      M_mb = testM
+   #      X_mb = testX
+   #  else:
+   #      Z_mb = sample_Z(No, Dim)
+   #      M_mb = Missing
+   #      X_mb = Data
+   #      if fn_ref_csv:
+   #          testX = df_ref[features].values
+   #      else:
+   #          testX = Data
+   #      testM = Missing
 
-        logger.info('testall: {} {} {} {}'.format(
-            Z_mb.shape, M_mb.shape, X_mb.shape, New_X_mb.shape))
+   #      logger.info('testall: {} {} {} {}'.format(
+   #          Z_mb.shape, M_mb.shape, X_mb.shape, New_X_mb.shape))
 
-    New_X_mb = M_mb * X_mb + (1-M_mb) * Z_mb  # Missing Data Introduce
-    MSE_final, Sample = sess.run(
-        [MSE_test_loss, G_sample],
-        feed_dict={X: testX, M: testM, New_X: New_X_mb})
-    testX_imputed = Sample # np.where(testM < 1, Sample, testX)
+   #  New_X_mb = M_mb * X_mb + (1-M_mb) * Z_mb  # Missing Data Introduce
+   #  MSE_final, Sample = sess.run(
+   #      [MSE_test_loss, G_sample],
+   #      feed_dict={X: testX, M: testM, New_X: New_X_mb})
+   #  testX_imputed = Sample # np.where(testM < 1, Sample, testX)
 
-    testX_imputed = scaler.inverse_transform(testX_imputed)
+   #  testX_imputed = scaler.inverse_transform(testX_imputed)
     
-    if is_auto_categorical:
-        testX_imputed = utilmlab.df_one_hot_to_cat(
-            pd.DataFrame(
-                testX_imputed,
-                columns=prop_df_one_hot['dfcol_one_hot']),
-            prop_df_one_hot)
+   #  if is_auto_categorical:
+   #      testX_imputed = utilmlab.df_one_hot_to_cat(
+   #          pd.DataFrame(
+   #              testX_imputed,
+   #              columns=prop_df_one_hot['dfcol_one_hot']),
+   #          prop_df_one_hot)
 
-    df_imputed = pd.DataFrame(testX_imputed, columns=features)
-    if label is not None:
-        df_imputed[[label]] = df[[label]]
+   #  df_imputed = pd.DataFrame(testX_imputed, columns=features)
+   #  if label is not None:
+   #      df_imputed[[label]] = df[[label]]
 
-    df_imputed.to_csv(fn_ocsv, index=False)
+   #  df_imputed.to_csv(fn_ocsv, index=False)
     
-    Z_mb_test = sample_Z(real_test_No, Dim)
-    #print("Z_mb_test", Z_mb_test)
-    M_mb_test = test_Missing
-   #print("M_mb_test", M_mb_test)
-    X_mb_test = test_Data
-    #print("X_mb_test", X_mb_test)
-    testX_test = test_Data
-    #print("testX_test", len(testX_test))
-    testM_test = test_Missing
+   #  Z_mb_test = sample_Z(real_test_No, Dim)
+   #  #print("Z_mb_test", Z_mb_test)
+   #  M_mb_test = test_Missing
+   # #print("M_mb_test", M_mb_test)
+   #  X_mb_test = test_Data
+   #  #print("X_mb_test", X_mb_test)
+   #  testX_test = test_Data
+   #  #print("testX_test", len(testX_test))
+   #  testM_test = test_Missing
         
-    New_X_test = M_mb_test * X_mb_test + (1-M_mb_test) * Z_mb_test  # Missing Data Introduce
-    MSE_test_data, test_Sample = sess.run([MSE_train_loss, G_sample],
-                                          feed_dict={X: testX_test, M: test_Missing, New_X: New_X_test})
+   #  New_X_test = M_mb_test * X_mb_test + (1-M_mb_test) * Z_mb_test  # Missing Data Introduce
+   #  MSE_test_data, test_Sample = sess.run([MSE_train_loss, G_sample],
+   #                                        feed_dict={X: testX_test, M: test_Missing, New_X: New_X_test})
     
-    test_Sample = scaler.inverse_transform(test_Sample)
+   #  test_Sample = scaler.inverse_transform(test_Sample)
     
-    df_test = pd.DataFrame(test_Sample, columns=features)
+   #  df_test = pd.DataFrame(test_Sample, columns=features)
     
-    #np.savetxt('test_imputed_str-h1={0}d_h2={1}d.csv'.format(fh,sh), df_test, delimiter=",")
-    if Type == 1:
-       df_test.to_csv('test_imputed_str.csv', index=False)
-    if Type == 2:
-       df_test.to_csv('test_imputed_Ax.csv', index=False)
+   #  #np.savetxt('test_imputed_str-h1={0}d_h2={1}d.csv'.format(fh,sh), df_test, delimiter=",")
+   #  if Type == 1:
+   #     df_test.to_csv('test_imputed_str.csv', index=False)
+   #  if Type == 2:
+   #     df_test.to_csv('test_imputed_Ax.csv', index=False)
 
-    if Type == 3:
-       df_test.to_csv('test_imputed_Ay.csv', index=False)
+   #  if Type == 3:
+   #     df_test.to_csv('test_imputed_Ay.csv', index=False)
 
-    if Type == 4:
-       df_test.to_csv('test_imputed_Az.csv', index=False)
+   #  if Type == 4:
+   #     df_test.to_csv('test_imputed_Az.csv', index=False)
 
     
     # epochs = range(0, 5000)

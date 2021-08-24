@@ -15,12 +15,11 @@ def stringToList(string):
     listRes = list(string.split(","))
     return listRes
 
-windows = [2956, 2905, 2347, 2298]
+
 #100, 200, 500, 1000, 1500, 2000, 2500, 3000, 4000, 5000
-dimensionsTested1 = [8]
-dimensionsTested2 = [8]
-dimensionsTested3 = [8]
-epoches = [2000]
+dimensionsTested2 = [8, 10, 12, 14, 16, 18, 20]
+dimensionsTested3 = [10, 12, 14, 16, 18, 20]
+epoches = [20000]
 
 
 
@@ -32,12 +31,32 @@ epoches = [2000]
 file_to_rename = "accel_x_imputed_train.csv"
 
 for epoch in epoches:
-	for dimension1 in dimensionsTested1:
-		for dimension2 in dimensionsTested2:
-			for dimension3 in dimensionsTested3:
-				print("-------------------------------------- accel_x_test epochs=" + str(epoch) + " 1st layer=" + str(dimension1)+" 2nd layer="+str(dimension2)+" 3rd layer=d/"+str(dimension3)+" --------------------------------")
-				string1 = "python gain.py -i accel_x_train.csv -o accel_x_imputed_train.csv --it " + str(epoch) + " --T 2 --f " + str(dimension1) + " --s " + str(dimension2) +" --t " + str(dimension3) + " --testfile accel_x_test.csv"
-				os.system(string1)
+	for dimension2 in dimensionsTested2:
+		for dimension3 in dimensionsTested3:
+			print("-------------------------------------- accel_x_test epochs=" + str(epoch) + " 1st layer=4n" +" 2nd layer="+str(dimension2)+" 3rd layer=d/"+str(dimension3)+" --------------------------------")
+			string1 = "python gain.py -i accel_x_train.csv -o accel_x_imputed_train.csv --it " + str(epoch) + " --T 2 --f 4"+ " --s " + str(dimension2) +" --t " + str(dimension3) + " --testfile accel_x_test.csv"
+			os.system(string1)
+
+for epoch in epoches:
+	for dimension2 in dimensionsTested2:
+		for dimension3 in dimensionsTested3:
+			print("-------------------------------------- accel_y_test epochs=" + str(epoch) + " 1st layer=4n"+" 2nd layer="+str(dimension2)+" 3rd layer=d/"+str(dimension3)+" --------------------------------")
+			string1 = "python gain.py -i accel_z_train.csv -o accel_z_imputed_train.csv --it " + str(epoch) + " --T 2 --f 4" + " --s " + str(dimension2) +" --t " + str(dimension3) + " --testfile accel_z_test.csv"
+			os.system(string1)
+
+for epoch in epoches:
+	for dimension2 in dimensionsTested2:
+		for dimension3 in dimensionsTested3:
+			print("-------------------------------------- accel_z_test epochs=" + str(epoch) + " 1st layer=4n"+" 2nd layer="+str(dimension2)+" 3rd layer=d/"+str(dimension3)+" --------------------------------")
+			string1 = "python gain.py -i accel_y_train.csv -o accel_y_imputed_train.csv --it " + str(epoch) + " --T 2 --f 4" + " --s " + str(dimension2) +" --t " + str(dimension3) + " --testfile accel_y_test.csv"
+			os.system(string1)
+
+for epoch in epoches:
+	for dimension2 in dimensionsTested2:
+		for dimension3 in dimensionsTested3:
+			print("-------------------------------------- stretch_test epochs=" + str(epoch) + " 1st layer=4n" + " 2nd layer="+str(dimension2)+" 3rd layer=d/"+str(dimension3)+" --------------------------------")
+			string1 = "python gain.py -i stretch_train.csv -o stretch_train.csv --it " + str(epoch) + " --T 2 --f 4" + " --s " + str(dimension2) +" --t " + str(dimension3) + " --testfile stretch_train_test.csv"
+			os.system(string1)
 				# string2 = "accel_x_imputed_train_d1_" + str(dimension1) + "_d2_"+ str(dimension2) + "_d3_"+str(dimension3)+"_epoches_"+str(epoch)+".csv"
 				# os.rename(file_to_rename, string2)
 				# print("-------------------------------------- accel_x_test epochs=" + str(epoch) + " 1st layer=" + str(dimension1)+" 2nd layer="+str(dimension2)+" 3rd layer=d/"+str(dimension3)+" --------------------------------")

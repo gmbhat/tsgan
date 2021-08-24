@@ -4,11 +4,11 @@ def sample_Z(m, n, z_sample, np):
 def optimizer(test_all, Dim, testM, testX, No, Missing, Data, fn_ref_csv, New_X_mb, MSE_test_loss, G_sample, New_X, prop_df_one_hot, is_auto_categorical, pd, label, df, features, fn_ocsv, real_test_No, test_Missing, test_Data, MSE_train_loss, X, scaler, Type, dimension1, dimension2, dimension3, epoch, utilmlab, sess, logger, df_ref, M, Test_No, z_sample, np):
     print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
     if not test_all:
-        Z_mb = sample_Z(Test_No, Dim, z_sample, np)
+        Z_mb = sample_Z(real_test_No, Dim, z_sample, np)
         M_mb = testM
         X_mb = testX
     else:
-        Z_mb = sample_Z(Test_No, Dim, z_sample, np)
+        Z_mb = sample_Z(No, Dim, z_sample, np)
         M_mb = Missing
         X_mb = Data
         if fn_ref_csv:
@@ -19,6 +19,10 @@ def optimizer(test_all, Dim, testM, testX, No, Missing, Data, fn_ref_csv, New_X_
 
         logger.info('testall: {} {} {} {}'.format(
             Z_mb.shape, M_mb.shape, X_mb.shape, New_X_mb.shape))
+
+    print("dimension if M_mb: " + str(len(M_mb)))
+    print("dimension if X_mb: " + str(len(X_mb)))
+    print("dimension if Z_mb: " + str(len(Z_mb)))
 
     New_X_mb = M_mb * X_mb + (1-M_mb) * Z_mb  # Missing Data Introduce
     MSE_final, Sample = sess.run(
@@ -42,6 +46,7 @@ def optimizer(test_all, Dim, testM, testX, No, Missing, Data, fn_ref_csv, New_X_
     df_imputed.to_csv(fn_ocsv, index=False)
     
     Z_mb = sample_Z(Test_No, Dim, z_sample, np)
+    Z_mb_test = sample_Z(real_test_No, Dim, z_sample, np)
     #print("Z_mb_test", Z_mb_test)
     M_mb_test = test_Missing
    #print("M_mb_test", M_mb_test)
@@ -59,15 +64,19 @@ def optimizer(test_all, Dim, testM, testX, No, Missing, Data, fn_ref_csv, New_X_
     
     df_test = pd.DataFrame(test_Sample, columns=features)
 
-    string2 = "accel_x_imputed_train_d1_" + str(dimension1) + "_d2_"+ str(dimension2) + "_d3_"+str(dimension3)+"_epoches_"+str(epoch)+".csv"
+    string1 = "accell_y_imputed_test_d1_4n" + "_d2_"+ str(int(dimension2)) + "_d3_"+str(int(dimension3))+"_epoches_"+str(epoch)+".csv"
+    string2 = "accell_x_imputed_test_d1_4n" + "_d2_"+ str(int(dimension2)) + "_d3_"+str(int(dimension3))+"_epoches_"+str(epoch)+".csv"
+    string3 = "accell_z_imputed_test_d1_4n" + "_d2_"+ str(int(dimension2)) + "_d3_"+str(int(dimension3))+"_epoches_"+str(epoch)+".csv"
+    string4 = "stretch_imputed_test_d1_4n" + "_d2_"+ str(int(dimension2)) + "_d3_"+str(int(dimension3))+"_epoches_"+str(epoch)+".csv"
 
-    if Type == 1:
-      df_test.to_csv(string2, index=False)
+
     if Type == 2:
-       df_test.to_csv('test_imputed_Ax.csv', index=False)
+      df_test.to_csv(string2, index=False)
+    if Type == 1:
+       df_test.to_csv(string4, index=False)
 
     if Type == 3:
-       df_test.to_csv('test_imputed_Ay.csv', index=False)
+       df_test.to_csv(string1, index=False)
 
     if Type == 4:
-       df_test.to_csv('test_imputed_Az.csv', index=False)
+       df_test.to_csv(string3, index=False)
