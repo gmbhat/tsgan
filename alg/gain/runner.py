@@ -44,19 +44,19 @@ for epoch in epoches:
 			string1 = "python gain.py -i accel_z_train.csv -o accel_z_imputed_train.csv --it " + str(epoch) + " --T 4 --f 4" + " --s " + str(dimension2) +" --t " + str(dimension3) + " --testfile accel_z_test.csv"
 			os.system(string1)
 
-for epoch in epoches:
-	for dimension2 in dimensionsTested2:
-		for dimension3 in dimensionsTested3:
-			print("-------------------------------------- accel_z_test epochs=" + str(epoch) + " 1st layer=4n"+" 2nd layer="+str(dimension2)+" 3rd layer=d/"+str(dimension3)+" --------------------------------")
-			string1 = "python gain.py -i accel_y_train.csv -o accel_y_imputed_train.csv --it " + str(epoch) + " --T 3 --f 4" + " --s " + str(dimension2) +" --t " + str(dimension3) + " --testfile accel_y_test.csv"
-			os.system(string1)
+# for epoch in epoches:
+# 	for dimension2 in dimensionsTested2:
+# 		for dimension3 in dimensionsTested3:
+# 			print("-------------------------------------- accel_z_test epochs=" + str(epoch) + " 1st layer=4n"+" 2nd layer="+str(dimension2)+" 3rd layer=d/"+str(dimension3)+" --------------------------------")
+# 			string1 = "python gain.py -i accel_y_train.csv -o accel_y_imputed_train.csv --it " + str(epoch) + " --T 3 --f 4" + " --s " + str(dimension2) +" --t " + str(dimension3) + " --testfile accel_y_test.csv"
+# 			os.system(string1)
 
-for epoch in epoches:
-	for dimension2 in dimensionsTested2:
-		for dimension3 in dimensionsTested3:
-			print("-------------------------------------- stretch_test epochs=" + str(epoch) + " 1st layer=4n" + " 2nd layer="+str(dimension2)+" 3rd layer=d/"+str(dimension3)+" --------------------------------")
-			string1 = "python gain.py -i stretch_train.csv -o stretch_train.csv --it " + str(epoch) + " --T 1 --f 4" + " --s " + str(dimension2) +" --t " + str(dimension3) + " --testfile stretch_train_test.csv"
-			os.system(string1)
+# for epoch in epoches:
+# 	for dimension2 in dimensionsTested2:
+# 		for dimension3 in dimensionsTested3:
+# 			print("-------------------------------------- stretch_test epochs=" + str(epoch) + " 1st layer=4n" + " 2nd layer="+str(dimension2)+" 3rd layer=d/"+str(dimension3)+" --------------------------------")
+# 			string1 = "python gain.py -i stretch_train.csv -o stretch_train.csv --it " + str(epoch) + " --T 1 --f 4" + " --s " + str(dimension2) +" --t " + str(dimension3) + " --testfile stretch_train_test.csv"
+# 			os.system(string1)
 				# string2 = "accel_x_imputed_train_d1_" + str(dimension1) + "_d2_"+ str(dimension2) + "_d3_"+str(dimension3)+"_epoches_"+str(epoch)+".csv"
 				# os.rename(file_to_rename, string2)
 				# print("-------------------------------------- accel_x_test epochs=" + str(epoch) + " 1st layer=" + str(dimension1)+" 2nd layer="+str(dimension2)+" 3rd layer=d/"+str(dimension3)+" --------------------------------")
