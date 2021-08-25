@@ -43,18 +43,16 @@ def stringToList(string):
     listRes = list(string.split(","))
     return listRes
 
-windows = [2414, 2447, 2504, 2562, 2628, 2887, 2947, 2982]
-dimensionsTested1 = [8, 10, 12, 16, 18, 20]
-dimensionsTested2 = [8, 10, 12, 16, 18, 20]
-dimensionsTested3 = [8, 10, 12, 16, 18, 20]
-epoches = [10000]
+windows = [1]
+dimensionsTested2 = [8]
+dimensionsTested3 = [20]
+epoches = [1001]
 
 
 for epoch in epoches:
-	for dimension1 in dimensionsTested1:
 		for dimension2 in dimensionsTested2:
 			for dimension3 in dimensionsTested3:
-				string2 = "Mass run small architectures\\accel_x_imputed_train_d1_" + str(dimension1) + "_d2_"+ str(dimension2) + "_d3_"+str(dimension3)+"_epoches_"+str(epoch)+".csv"
+				string2 = "Mass run small architectures\\Imputed files\\accell_y_imputed_test_d1_4n" + "_d2_"+ str(dimension2) + "_d3_"+str(dimension3)+"_epoches_"+str(epoch)+".csv"
 
 				for plotWindow in windows: 
 					plt = None
@@ -101,7 +99,7 @@ for epoch in epoches:
 					plt.plot( 'x_values', 'reference', data=df, marker='', markerfacecolor='blue',  linewidth=2)
 					plt.plot( 'x_values', 'imputed', data=df, marker='', color='olive', linewidth=2)
 					plt.plot( 'x_values', 'missing', data=df, marker='', color='red', linewidth=2)#, label="toto")
-					pltTitle = 'accel_x'+' missing_'+str(int(missing_data_percent*100))+' activity_'+str(int(activity))+' d1=' + str(dimension1) + ' d2='+ str(dimension2) + ' d3=' + str(dimension3) + ' window=' + str(plotWindow) + ' epoches' + str(epoch)
+					pltTitle = 'accel_x'+' missing_'+str(int(missing_data_percent*100))+' activity_'+str(int(activity))+' d1=4n'+ ' d2='+ str(dimension2) + ' d3=' + str(dimension3) + ' window=' + str(plotWindow) + ' epoches' + str(epoch)
 					plt.title(pltTitle)
 					plt.legend()
 					plt.ylim(minimum*5, maximim*5)

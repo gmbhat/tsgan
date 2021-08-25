@@ -30,19 +30,19 @@ epoches = [20000]
 
 file_to_rename = "accel_x_imputed_train.csv"
 
-for epoch in epoches:
-	for dimension2 in dimensionsTested2:
-		for dimension3 in dimensionsTested3:
-			print("-------------------------------------- accel_x_test epochs=" + str(epoch) + " 1st layer=4n" +" 2nd layer="+str(dimension2)+" 3rd layer=d/"+str(dimension3)+" --------------------------------")
-			string1 = "python gain.py -i accel_x_train.csv -o accel_x_imputed_train.csv --it " + str(epoch) + " --T 2 --f 4"+ " --s " + str(dimension2) +" --t " + str(dimension3) + " --testfile accel_x_test.csv"
-			os.system(string1)
+# for epoch in epoches:
+# 	for dimension2 in dimensionsTested2:
+# 		for dimension3 in dimensionsTested3:
+# 			print("-------------------------------------- accel_x_test epochs=" + str(epoch) + " 1st layer=4n" +" 2nd layer="+str(dimension2)+" 3rd layer=d/"+str(dimension3)+" --------------------------------")
+# 			string1 = "python gain.py -i accel_x_train.csv -o accel_x_imputed_train.csv --it " + str(epoch) + " --T 2 --f 4"+ " --s " + str(dimension2) +" --t " + str(dimension3) + " --testfile accel_x_test.csv"
+# 			os.system(string1)
 
-for epoch in epoches:
-	for dimension2 in dimensionsTested2:
-		for dimension3 in dimensionsTested3:
-			print("-------------------------------------- accel_y_test epochs=" + str(epoch) + " 1st layer=4n"+" 2nd layer="+str(dimension2)+" 3rd layer=d/"+str(dimension3)+" --------------------------------")
-			string1 = "python gain.py -i accel_z_train.csv -o accel_z_imputed_train.csv --it " + str(epoch) + " --T 4 --f 4" + " --s " + str(dimension2) +" --t " + str(dimension3) + " --testfile accel_z_test.csv"
-			os.system(string1)
+# for epoch in epoches:
+# 	for dimension2 in dimensionsTested2:
+# 		for dimension3 in dimensionsTested3:
+# 			print("-------------------------------------- accel_y_test epochs=" + str(epoch) + " 1st layer=4n"+" 2nd layer="+str(dimension2)+" 3rd layer=d/"+str(dimension3)+" --------------------------------")
+# 			string1 = "python gain.py -i accel_z_train.csv -o accel_z_imputed_train.csv --it " + str(epoch) + " --T 4 --f 4" + " --s " + str(dimension2) +" --t " + str(dimension3) + " --testfile accel_z_test.csv"
+# 			os.system(string1)
 
 for epoch in epoches:
 	for dimension2 in dimensionsTested2:
