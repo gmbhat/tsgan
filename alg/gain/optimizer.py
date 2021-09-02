@@ -81,6 +81,8 @@ def optimizer(test_all, Dim, testM, testX, No, Missing, Data, fn_ref_csv, New_X_
     print("AverageWeights1", len(AverageWeights1))
     print("testX", len(testX))
     print("test_missing", len(test_Missing))
+    print("data", len(Data))
+    print("test_data", len(test_Data))
 
     New_X_test = M_mb_test * X_mb_test + (1-M_mb_test) * Z_mb_test  # Missing Data Introduce
     print("part 1", len(M_mb_test * X_mb_test))

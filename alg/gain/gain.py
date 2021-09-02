@@ -328,7 +328,7 @@ if __name__ == '__main__':
         Data)
     
     
-    test_Data = scaler.transform(test_Data) #changed "test_Data" to Data
+    test_Data = scaler.transform(Data) #changed "test_Data" to Data
     real_test_No = len(test_Data) 
 
     # Train / Test Missing/Mask Indicators (1 is not missing)
@@ -682,28 +682,28 @@ if __name__ == '__main__':
        
      
     
-    plt.figure()
-    plt.plot(it_arr, arr_G, 'go', label='G')
-    plt.plot(it_arr, arr_D, 'bo', label='D')
-    plt.title('Training loss Vs. Epochs')
-    plt. ylabel('Cross Entropy')
-    plt. xlabel('epochs')
-    plt.legend()
-    if Type == 1:
+    # plt.figure()
+    # plt.plot(it_arr, arr_G, 'go', label='G')
+    # plt.plot(it_arr, arr_D, 'bo', label='D')
+    # plt.title('Training loss Vs. Epochs')
+    # plt. ylabel('Cross Entropy')
+    # plt. xlabel('epochs')
+    # plt.legend()
+    # if Type == 1:
 
-       plt.savefig('{0}/crossLoss_strh1={1}d_h2={2}d_h3={3}d.png'.format(odir,fh,sh,th))
+    #    plt.savefig('{0}/crossLoss_strh1={1}d_h2={2}d_h3={3}d.png'.format(odir,fh,sh,th))
      
-    if Type == 2:
+    # if Type == 2:
 
-       plt.savefig('{0}/crossLoss_Axh1={1}d_h2={2}d_h3={3}d.png'.format(odir,fh,sh,th))
+    #    plt.savefig('{0}/crossLoss_Axh1={1}d_h2={2}d_h3={3}d.png'.format(odir,fh,sh,th))
        
-    if Type == 3:
+    # if Type == 3:
 
-       plt.savefig('{0}/crossLoss_Ayh1={1}d_h2={2}d_h3={3}d.png'.format(odir,fh,sh,th))
+    #    plt.savefig('{0}/crossLoss_Ayh1={1}d_h2={2}d_h3={3}d.png'.format(odir,fh,sh,th))
        
-    if Type == 4:
+    # if Type == 4:
 
-       plt.savefig('{0}/crossLoss_Azh1={1}d_h2={2}d_h3={3}d.png'.format(odir,fh,sh,th))
+    #    plt.savefig('{0}/crossLoss_Azh1={1}d_h2={2}d_h3={3}d.png'.format(odir,fh,sh,th))
 
     # for x in arr_G:
     #     print(x)
