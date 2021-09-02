@@ -26,6 +26,7 @@ import data_loader_mlab
 import joblib 
 from math import log2
 import optimizer
+import statistics
 df_ref = []
 
 
@@ -199,6 +200,45 @@ if __name__ == '__main__':
     # Parameters
     No = len(Data)
     Dim = len(Data[0, :])
+    thresholdMean = 0.1
+    MaxMinWeights = []
+
+    
+    
+    # mean = 0
+    # for i in Data:
+    #     mean = mean + i
+    # mean = mean/Dim  
+
+    # counter = 0;
+    # for i in Data:
+        
+    #     for j in i
+    #         temp = j/mean            
+    #         if temp[0] >= thresholdMean:
+    #             AverageWeights.insert(counter, 0.5)
+    #         else:
+    #             AverageWeights.insert(counter, 0.1)
+    #         counter = counter + 1
+
+    # maxValue = max(Data)
+    # minValue = min(Data)
+
+    # counter = 0
+    # thresholdMinMax = 0.75
+    # MinMaxWeights = []
+    # for i in Data:
+    #     if max/i < 0.75:
+    #         MinMaxWeights.insert(counter, 0.5)
+    #     else:
+    #         MinMaxWeights.insert(counter, 0.1)
+    #     counter = counter + 1
+
+    # print("aaaaaaaaaaaaaaaaaaaaahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
+    # print(len(AverageWeights))
+    # print("counter = ", counter)
+
+
 
 
     # Hidden state dimensions
@@ -326,6 +366,10 @@ if __name__ == '__main__':
     H = tf.placeholder(tf.float32, shape = [None, Dim], name='H')
     # 1.4. X with missing values
     New_X = tf.placeholder(tf.float32, shape = [None, Dim], name='New_X')
+    #Weight vector
+    Weights = tf.placeholder(tf.float32, shape = [None, Dim], name = 'Weights')
+    print("CATCH ME ****************----------------______________AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+    print(Weights)
     
     #%% 2. Discriminator
     D_W1 = tf.Variable(xavier_init([Dim*2, H_Dim1]), name='D_W1')     # Data + Hint as inputs
@@ -404,21 +448,23 @@ if __name__ == '__main__':
     #%% Loss
     D_loss1 = -tf.reduce_mean(M * tf.log(D_prob + 1e-8) + (1-M) * tf.log(1. - D_prob + 1e-8)) 
     G_loss1 = -tf.reduce_mean((1-M) * tf.log(D_prob + 1e-8))
+
+
     if Type == 1:
-       MSE_train_loss = tf.reduce_mean(abs(M * New_X - M * G_sample)) / tf.reduce_mean(M)
+       MSE_train_loss = tf.reduce_mean(Weights * abs(M * New_X - M * G_sample )) / tf.reduce_mean(M)
        
     else:  
-       MSE_train_loss = tf.reduce_mean((M * New_X - M * G_sample)**2) / tf.reduce_mean(M)
+       MSE_train_loss = tf.reduce_mean(Weights * (M * New_X - M * G_sample )**2) / tf.reduce_mean(M)
     
     D_loss = D_loss1
     G_loss = G_loss1 + alpha * 100 * MSE_train_loss #10*100 = 1000
     # print('hello')
     #%% MSE Performance metric
     if Type == 1:
-       MSE_test_loss = tf.reduce_mean(abs((1-M) * X - (1-M)*G_sample)) / tf.reduce_mean(1-M)
+       MSE_test_loss = tf.reduce_mean(Weights * abs((1-M) * X - (1-M)*G_sample)) / tf.reduce_mean(1-M)
        
     else:
-       MSE_test_loss = tf.reduce_mean(((1-M) * X - (1-M)*G_sample)**2) / tf.reduce_mean(1-M)
+       MSE_test_loss = tf.reduce_mean(Weights * ((1-M) * X - (1-M)*G_sample)**2) / tf.reduce_mean(1-M)
     
     #%% Solver
     D_solver = tf.train.AdamOptimizer().minimize(D_loss, var_list=theta_D)
@@ -446,6 +492,27 @@ if __name__ == '__main__':
         mb_idx = sample_idx(Train_No, mb_size)  # random idxs of mbsize
         X_mb = trainX[mb_idx, :]
         
+        counter = 0
+        AverageWeights = []
+
+        for i in X_mb:
+            
+            mean = 0
+            for k in i:
+                mean = mean + k
+            mean = mean / len(i)
+
+            temp = []
+            highThreshold = mean * 1.1
+            lowThreshold = mean * 0.9
+            for j in i:
+                if j < lowThreshold or j > highThreshold:
+                    temp.append(5)
+                else:
+                    temp.append(1)
+            AverageWeights.append(temp)
+            
+        
         Z_mb = sample_Z(mb_size, Dim)  # random noise between 0 and 0.01
         M_mb = trainM[mb_idx, :]  # mask mbsize
         H_mb1 = sample_M(mb_size, Dim, 1-p_hint)  # hint mask (1-phint)
@@ -457,7 +524,7 @@ if __name__ == '__main__':
         
         _, D_loss_curr = sess.run([D_solver, D_loss1], feed_dict = {M: M_mb, New_X: New_X_mb, H: H_mb})
         _, G_loss_curr, MSE_train_loss_curr, MSE_test_loss_curr = sess.run([G_solver, G_loss1, MSE_train_loss, MSE_test_loss],
-                                                                           feed_dict = {X: X_mb, M: M_mb, New_X: New_X_mb, H: H_mb})
+                                                                           feed_dict = {X: X_mb, M: M_mb, New_X: New_X_mb, H: H_mb, Weights: AverageWeights})
         arr_G.append(G_loss_curr)
         arr_D.append(D_loss_curr)
         
@@ -466,10 +533,33 @@ if __name__ == '__main__':
         X_mb_test = testX
         testX_test = testX
         testM_test = testM
+
+    
+
+
+        counter1 = 0
+        AverageWeights1 = []
+
+        for i in testX:
+            
+            mean = 0
+            for k in i:
+                mean = mean + k
+            mean = mean / len(i)
+
+            temp = []
+            highThreshold = mean * 1.1
+            lowThreshold = mean * 0.9
+            for j in i:
+                if j < lowThreshold or j > highThreshold:
+                    temp.append(5)
+                else:
+                    temp.append(1)
+            AverageWeights1.append(temp)
         
         New_X_test = M_mb_test * X_mb_test + (1-M_mb_test) * Z_mb_test  # Missing Data Introduce
         MSE_test_data, test_Sample = sess.run([MSE_train_loss, G_sample],
-                                     feed_dict={X: testX, M: testM, New_X: New_X_test})
+                                     feed_dict={X: testX, M: testM, New_X: New_X_test, Weights: AverageWeights1})
     
         loss_train.append(MSE_train_loss_curr)
         loss_test.append(MSE_test_data)
@@ -482,7 +572,7 @@ if __name__ == '__main__':
             pbar.clear()
             logger.info('{}'.format(s))
             pbar.set_description(s)
-            optimizer.optimizer(test_all, Dim, testM, testX, No, Missing, Data, fn_ref_csv, New_X_mb, MSE_test_loss, G_sample, New_X, prop_df_one_hot, is_auto_categorical, pd, label, df, features, fn_ocsv, real_test_No, test_Missing, test_Data, MSE_train_loss, X, scaler, Type, H_Dim1, second_hlayer, third_hlayer, it, utilmlab, sess, logger, df_ref, M, Test_No, z_sample, np)
+            optimizer.optimizer(test_all, Dim, testM, testX, No, Missing, Data, fn_ref_csv, New_X_mb, MSE_test_loss, G_sample, New_X, prop_df_one_hot, is_auto_categorical, pd, label, df, features, fn_ocsv, real_test_No, test_Missing, test_Data, MSE_train_loss, X, scaler, Type, H_Dim1, second_hlayer, third_hlayer, it, utilmlab, sess, logger, df_ref, M, Test_No, z_sample, np, AverageWeights1, Weights)
         
         
         

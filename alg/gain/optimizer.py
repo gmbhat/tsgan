@@ -1,7 +1,7 @@
 def sample_Z(m, n, z_sample, np):
   return np.random.uniform(0., z_sample, size = [m, n]) 
 
-def optimizer(test_all, Dim, testM, testX, No, Missing, Data, fn_ref_csv, New_X_mb, MSE_test_loss, G_sample, New_X, prop_df_one_hot, is_auto_categorical, pd, label, df, features, fn_ocsv, real_test_No, test_Missing, test_Data, MSE_train_loss, X, scaler, Type, dimension1, dimension2, dimension3, epoch, utilmlab, sess, logger, df_ref, M, Test_No, z_sample, np):
+def optimizer(test_all, Dim, testM, testX, No, Missing, Data, fn_ref_csv, New_X_mb, MSE_test_loss, G_sample, New_X, prop_df_one_hot, is_auto_categorical, pd, label, df, features, fn_ocsv, real_test_No, test_Missing, test_Data, MSE_train_loss, X, scaler, Type, dimension1, dimension2, dimension3, epoch, utilmlab, sess, logger, df_ref, M, Test_No, z_sample, np, AverageWeights, Weights):
     print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
     if not test_all:
         Z_mb = sample_Z(real_test_No, Dim, z_sample, np)
@@ -24,10 +24,29 @@ def optimizer(test_all, Dim, testM, testX, No, Missing, Data, fn_ref_csv, New_X_
     print("dimension if X_mb: " + str(len(X_mb)))
     print("dimension if Z_mb: " + str(len(Z_mb)))
 
+    AverageWeights1 = []
+
+    for i in testX:
+            
+            mean = 0
+            for k in i:
+                mean = mean + k
+            mean = mean / len(i)
+
+            temp = []
+            highThreshold = mean * 1.1
+            lowThreshold = mean * 0.9
+            for j in i:
+                if j < lowThreshold or j > highThreshold:
+                    temp.append(5)
+                else:
+                    temp.append(1)
+            AverageWeights1.append(temp)
+
     New_X_mb = M_mb * X_mb + (1-M_mb) * Z_mb  # Missing Data Introduce
     MSE_final, Sample = sess.run(
         [MSE_test_loss, G_sample],
-        feed_dict={X: testX, M: testM, New_X: New_X_mb})
+        feed_dict={X: testX, M: testM, New_X: New_X_mb, Weights: AverageWeights1})
     testX_imputed = Sample # np.where(testM < 1, Sample, testX)
 
     testX_imputed = scaler.inverse_transform(testX_imputed)
@@ -55,10 +74,25 @@ def optimizer(test_all, Dim, testM, testX, No, Missing, Data, fn_ref_csv, New_X_
     testX_test = test_Data
     #print("testX_test", len(testX_test))
     testM_test = test_Missing
-        
+
+
+
+    print("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
+    print("AverageWeights1", len(AverageWeights1))
+    print("testX", len(testX))
+    print("test_missing", len(test_Missing))
+
     New_X_test = M_mb_test * X_mb_test + (1-M_mb_test) * Z_mb_test  # Missing Data Introduce
+    print("part 1", len(M_mb_test * X_mb_test))
+    print("prart 2", len((1-M_mb_test) * Z_mb_test))
+    print("New_X_test", len(New_X_test))
+    print("tetsM", len(testM))
     MSE_test_data, test_Sample = sess.run([MSE_train_loss, G_sample],
-                                          feed_dict={X: testX_test, M: test_Missing, New_X: New_X_test})
+                                 feed_dict={X: testX, M: testM, New_X: New_X_test, Weights: AverageWeights1})
+
+
+        
+   
     
     test_Sample = scaler.inverse_transform(test_Sample)
     
