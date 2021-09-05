@@ -19,7 +19,7 @@ def stringToList(string):
 #100, 200, 500, 1000, 1500, 2000, 2500, 3000, 4000, 5000
 dimensionsTested2 = [8, 10, 12, 14, 16, 18, 20]
 dimensionsTested3 = [10, 12, 14, 16, 18, 20]
-epoches = [2000]
+epoches = [20000]
 
 
 
