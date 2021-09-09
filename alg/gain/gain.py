@@ -507,9 +507,9 @@ if __name__ == '__main__':
             lowThreshold = mean * 0.9
             for j in i:
                 if j < lowThreshold or j > highThreshold:
-                    temp.append(5)
+                    temp.append(50)
                 else:
-                    temp.append(1)
+                    temp.append(5)
             AverageWeights.append(temp)
             
         

@@ -101,7 +101,7 @@ def optimizer(test_all, Dim, testM, testX, No, Missing, Data, fn_ref_csv, New_X_
     df_test = pd.DataFrame(test_Sample, columns=features)
 
     string1 = "accell_y_imputed_test_d1_4n" + "_d2_"+ str(int(dimension2)) + "_d3_"+str(int(dimension3))+"_epoches_"+str(epoch)+".csv"
-    string2 = "accell_x_imputed_test_weighted_d1_4n" + "_d2_"+ str(int(dimension2)) + "_d3_"+str(int(dimension3))+"_epoches_"+str(epoch)+".csv"
+    string2 = "accell_x_imputed_test_weighted10_d1_4n" + "_d2_"+ str(int(dimension2)) + "_d3_"+str(int(dimension3))+"_epoches_"+str(epoch)+".csv"
     string3 = "accell_z_imputed_test_d1_4n" + "_d2_"+ str(int(dimension2)) + "_d3_"+str(int(dimension3))+"_epoches_"+str(epoch)+".csv"
     string4 = "stretch_imputed_test_d1_4n" + "_d2_"+ str(int(dimension2)) + "_d3_"+str(int(dimension3))+"_epoches_"+str(epoch)+".csv"
 
