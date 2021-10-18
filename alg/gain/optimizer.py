@@ -1,7 +1,7 @@
 def sample_Z(m, n, z_sample, np):
   return np.random.uniform(0., z_sample, size = [m, n]) 
 
-def optimizer(test_all, Dim, testM, testX, No, Missing, Data, fn_ref_csv, New_X_mb, MSE_test_loss, G_sample, New_X, prop_df_one_hot, is_auto_categorical, pd, label, df, features, fn_ocsv, real_test_No, test_Missing, test_Data, MSE_train_loss, X, scaler, Type, dimension1, dimension2, dimension3, epoch, utilmlab, sess, logger, df_ref, M, Test_No, z_sample, np, AverageWeights, Weights):
+def optimizer(test_all, Dim, testM, testX, No, Missing, Data, fn_ref_csv, New_X_mb, MSE_test_loss, G_sample, New_X, prop_df_one_hot, is_auto_categorical, pd, label, df, features, fn_ocsv, real_test_No, test_Missing, test_Data, MSE_train_loss, X, scaler, Type, dimension1, dimension2, dimension3, epoch, utilmlab, sess, logger, df_ref, M, Test_No, z_sample, np, AverageWeights, Weights, weightMultiplier):
     print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
     if not test_all:
         Z_mb = sample_Z(real_test_No, Dim, z_sample, np)
@@ -101,7 +101,7 @@ def optimizer(test_all, Dim, testM, testX, No, Missing, Data, fn_ref_csv, New_X_
     df_test = pd.DataFrame(test_Sample, columns=features)
 
     string1 = "accell_y_imputed_test_d1_4n" + "_d2_"+ str(int(dimension2)) + "_d3_"+str(int(dimension3))+"_epoches_"+str(epoch)+".csv"
-    string2 = "accell_x_imputed_test_weighted10_d1_4n" + "_d2_"+ str(int(dimension2)) + "_d3_"+str(int(dimension3))+"_epoches_"+str(epoch)+".csv"
+    string2 = "accell_x_imputed_test_weighted10_d1_4n" + "_d2_"+ str(int(dimension2)) + "_d3_"+str(int(dimension3))+"_epoches_"+str(epoch)+"_weightMult_" + str(int(weightMultiplier))+".csv"
     string3 = "accell_z_imputed_test_d1_4n" + "_d2_"+ str(int(dimension2)) + "_d3_"+str(int(dimension3))+"_epoches_"+str(epoch)+".csv"
     string4 = "stretch_imputed_test_d1_4n" + "_d2_"+ str(int(dimension2)) + "_d3_"+str(int(dimension3))+"_epoches_"+str(epoch)+".csv"
 

@@ -43,19 +43,16 @@ def stringToList(string):
     listRes = list(string.split(","))
     return listRes
 
-#windows = [300, 333, 500, 1000, 5000, 2456, 2988]
-windows = [2377, 2426, 2475, 2547, 2613, 2850, 2906, 2957, 2989]
-dimensionsTested2 = [20]
-dimensionsTested3 = [10]
-epoches = [1501]
+windows = [1]
+dimensionsTested2 = [8]
+dimensionsTested3 = [20]
+epoches = [1001]
 
 
 for epoch in epoches:
 		for dimension2 in dimensionsTested2:
 			for dimension3 in dimensionsTested3:
-				string2 = "weighted run\\accell_x_imputed_test_weighted_d1_4n" + "_d2_"+ str(dimension2) + "_d3_"+str(dimension3)+"_epoches_"+str(epoch)+".csv"
-
-				string2 = "weighted run 10\\accell_x_imputed_test_weighted10_d1_4n" + "_d2_"+ str(dimension2) + "_d3_"+str(dimension3)+"_epoches_"+str(epoch)+".csv"
+				string2 = "Mass run small architectures\\Imputed files\\accell_y_imputed_test_d1_4n" + "_d2_"+ str(dimension2) + "_d3_"+str(dimension3)+"_epoches_"+str(epoch)+".csv"
 
 				for plotWindow in windows: 
 					plt = None
@@ -77,7 +74,7 @@ for epoch in epoches:
 					minimum = min(imputedCSV)
 					maximim = max(imputedCSV)
 
-					refereceCSV = linecache.getline('accel_x_test_ref.csv',plotWindow)
+					refereceCSV = linecache.getline('accel_x_train_ref.csv',plotWindow)
 					refereceCSV = stringToList(refereceCSV)
 					refereceCSV = list(map(float, refereceCSV))
 					if(min(refereceCSV) < minimum):
@@ -85,11 +82,11 @@ for epoch in epoches:
 					if(max(refereceCSV) > maximim):
 						maximim = max(refereceCSV)
 
-					missngCSV = linecache.getline('accel_x_test.csv',plotWindow) #csv.reader('stretch_missing_train.csv')
+					missngCSV = linecache.getline('accel_x_train.csv',plotWindow) #csv.reader('stretch_missing_train.csv')
 					missngCSV = stringToList(missngCSV)
 					missngCSV = list(map(float, missngCSV))
 
-					train_order_csv = linecache.getline('test_order.csv', plotWindow)
+					train_order_csv = linecache.getline('train_order.csv', plotWindow)
 					train_order_csv = stringToList(train_order_csv)
 					train_order_csv = list(map(float, train_order_csv))
 					activity = train_order_csv[2]
@@ -102,7 +99,7 @@ for epoch in epoches:
 					plt.plot( 'x_values', 'reference', data=df, marker='', markerfacecolor='blue',  linewidth=2)
 					plt.plot( 'x_values', 'imputed', data=df, marker='', color='olive', linewidth=2)
 					plt.plot( 'x_values', 'missing', data=df, marker='', color='red', linewidth=2)#, label="toto")
-					pltTitle = 'accel_x10'+' missing_'+str(int(missing_data_percent*100))+' activity_'+str(int(activity))+' d1=4n'+ ' d2='+ str(dimension2) + ' d3=' + str(dimension3) + ' window=' + str(plotWindow) + ' epoches' + str(epoch)
+					pltTitle = 'accel_x'+' missing_'+str(int(missing_data_percent*100))+' activity_'+str(int(activity))+' d1=4n'+ ' d2='+ str(dimension2) + ' d3=' + str(dimension3) + ' window=' + str(plotWindow) + ' epoches' + str(epoch)
 					plt.title(pltTitle)
 					plt.legend()
 					plt.ylim(minimum*5, maximim*5)
