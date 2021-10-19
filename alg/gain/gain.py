@@ -251,8 +251,8 @@ if __name__ == '__main__':
     fh = 1/first_hlayer
     sh = 1/second_hlayer
     th = 1/third_hlayer
-    H_Dim1 = int(4)
-    #H_Dim1 = int(H_Dim1/first_hlayer)
+    #H_Dim1 = int(4)
+    H_Dim1 = int(H_Dim1/first_hlayer)
     H_Dim2 = int(H_Dim2/second_hlayer)
     H_Dim3 = int(H_Dim3/third_hlayer)
 
