@@ -43,16 +43,17 @@ def stringToList(string):
     listRes = list(string.split(","))
     return listRes
 
-windows = [1]
-dimensionsTested2 = [8]
-dimensionsTested3 = [20]
-epoches = [1001]
+windows = [2337, 2426, 2475, 2547, 2613, 2850, 2906, 2957, 2989]
+dimensionsTested2 = [2]
+dimensionsTested3 = [2]
+weight = 30
+epoches = [1]
 
 
 for epoch in epoches:
 		for dimension2 in dimensionsTested2:
 			for dimension3 in dimensionsTested3:
-				string2 = "Mass run small architectures\\Imputed files\\accell_y_imputed_test_d1_4n" + "_d2_"+ str(dimension2) + "_d3_"+str(dimension3)+"_epoches_"+str(epoch)+".csv"
+				string2 = "accell_x_imputed_test_weighted10" +"_d1_4n" + "_d2_"+ str(dimension2) + "_d3_"+str(dimension3)+"_epoches_"+str(epoch)+"_weightMult_" + str(weight)+".csv"
 
 				for plotWindow in windows: 
 					plt = None
@@ -68,13 +69,13 @@ for epoch in epoches:
 					pd = None
 					import pandas as pd
 
-					imputedCSV = linecache.getline(string2, plotWindow)
+					imputedCSV = linecache.getline(string2, plotWindow-1)
 					imputedCSV = stringToList(imputedCSV)
 					imputedCSV = list(map(float, imputedCSV))
 					minimum = min(imputedCSV)
 					maximim = max(imputedCSV)
 
-					refereceCSV = linecache.getline('accel_x_train_ref.csv',plotWindow)
+					refereceCSV = linecache.getline('accel_x_train_ref.csv',plotWindow-1)
 					refereceCSV = stringToList(refereceCSV)
 					refereceCSV = list(map(float, refereceCSV))
 					if(min(refereceCSV) < minimum):
@@ -82,11 +83,11 @@ for epoch in epoches:
 					if(max(refereceCSV) > maximim):
 						maximim = max(refereceCSV)
 
-					missngCSV = linecache.getline('accel_x_train.csv',plotWindow) #csv.reader('stretch_missing_train.csv')
+					missngCSV = linecache.getline('accel_x_train.csv',plotWindow-1) #csv.reader('stretch_missing_train.csv')
 					missngCSV = stringToList(missngCSV)
 					missngCSV = list(map(float, missngCSV))
 
-					train_order_csv = linecache.getline('train_order.csv', plotWindow)
+					train_order_csv = linecache.getline('train_order.csv', plotWindow-1)
 					train_order_csv = stringToList(train_order_csv)
 					train_order_csv = list(map(float, train_order_csv))
 					activity = train_order_csv[2]

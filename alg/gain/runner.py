@@ -20,7 +20,7 @@ def stringToList(string):
 dimensionsTested2 = [2]
 dimensionsTested3 = [2]
 epoches = [5000]
-weightDifference = [1, 5, 10, 20, 30]
+weightDifference = [100]
 
 
 #------------------------------------------------------------------------------------------------------------------------------------
@@ -35,7 +35,7 @@ for epoch in epoches:
 		for dimension3 in dimensionsTested3:
 			for weight in weightDifference:
 				print("-------------------------------------- accel_x_test epochs=" + str(epoch) + " 1st layer=4n" +" 2nd layer="+str(dimension2)+" 3rd layer=d/"+str(dimension3)+" --------------------------------")
-				string1 = "python gain.py -i accel_x_train.csv -o accel_x_imputed_train.csv --it " + str(epoch) + " --T 2 --f 4"+ " --s " + str(dimension2) +" --t " + str(dimension3) + " --testfile accel_x_train.csv"
+				string1 = "python gain.py -i accel_x_train.csv -o accel_x_imputed_train.csv --it " + str(epoch) + " --T 2 --f 4"+ " --s " + str(dimension2) +" --t " + str(dimension3) + " --weight " + str(weight) +" --testfile accel_x_train.csv"
 				os.system(string1)
 
 # for epoch in epoches:

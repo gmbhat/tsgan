@@ -95,6 +95,8 @@ def init_arg():
     parser.add_argument(
         '--t', default=1, type=float, help='layer3')
     parser.add_argument(
+        '--weight', default=1, type=float, help='weight multplier')    
+    parser.add_argument(
         '--alpha', default=10, type=float, help='')
     parser.add_argument(
         '--autocategorical', default=1, type=int, help='')
@@ -126,6 +128,7 @@ if __name__ == '__main__':
     first_hlayer = args.f
     second_hlayer = args.s
     third_hlayer = args.t
+    weight_multipler = args.weight
 
     alpha = args.alpha
     train_rate = args.trainratio
@@ -507,9 +510,9 @@ if __name__ == '__main__':
             lowThreshold = mean * 0.9
             for j in i:
                 if j < lowThreshold or j > highThreshold:
-                    temp.append(50)
+                    temp.append(weight_multipler)
                 else:
-                    temp.append(5)
+                    temp.append(1)
             AverageWeights.append(temp)
             
         
@@ -572,7 +575,7 @@ if __name__ == '__main__':
             pbar.clear()
             logger.info('{}'.format(s))
             pbar.set_description(s)
-            optimizer.optimizer(test_all, Dim, testM, testX, No, Missing, Data, fn_ref_csv, New_X_mb, MSE_test_loss, G_sample, New_X, prop_df_one_hot, is_auto_categorical, pd, label, df, features, fn_ocsv, real_test_No, test_Missing, test_Data, MSE_train_loss, X, scaler, Type, H_Dim1, second_hlayer, third_hlayer, it, utilmlab, sess, logger, df_ref, M, Test_No, z_sample, np, AverageWeights1, Weights)
+            optimizer.optimizer(test_all, Dim, testM, testX, No, Missing, Data, fn_ref_csv, New_X_mb, MSE_test_loss, G_sample, New_X, prop_df_one_hot, is_auto_categorical, pd, label, df, features, fn_ocsv, real_test_No, test_Missing, test_Data, MSE_train_loss, X, scaler, Type, H_Dim1, second_hlayer, third_hlayer, it, utilmlab, sess, logger, df_ref, M, Test_No, z_sample, np, AverageWeights1, Weights, weight_multipler)
         
         
         
