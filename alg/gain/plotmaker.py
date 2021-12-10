@@ -46,14 +46,14 @@ def stringToList(string):
 windows = [2337, 2426, 2475, 2547, 2613, 2850, 2906, 2957, 2989]
 dimensionsTested2 = [2]
 dimensionsTested3 = [2]
-weight = 30
-epoches = [1]
+weight = 100
+epoches = [1, 501, 1001, 1501, 2001, 2501, 3001, 3501, 4001]
 
 
 for epoch in epoches:
 		for dimension2 in dimensionsTested2:
 			for dimension3 in dimensionsTested3:
-				string2 = "accell_x_imputed_test_weighted10" +"_d1_4n" + "_d2_"+ str(dimension2) + "_d3_"+str(dimension3)+"_epoches_"+str(epoch)+"_weightMult_" + str(weight)+".csv"
+				string2 = "accell_x_imputed_test_weighted100" +"_d1_4n" + "_d2_"+ str(dimension2) + "_d3_"+str(dimension3)+"_epoches_"+str(epoch)+"_weightMult_" + str(weight)+".csv"
 
 				for plotWindow in windows: 
 					plt = None

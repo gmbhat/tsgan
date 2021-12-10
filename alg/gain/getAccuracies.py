@@ -27,7 +27,7 @@ from sklearn.metrics import mean_squared_error
 dimensionsTested2 = [2]
 dimensionsTested3 = [2]
 epoches = [1, 501, 1001, 1501, 2001, 2501, 3001, 3501, 4001]
-weightDifference = [1, 5, 10, 20, 30]
+weightDifference = [100]
 # windows = [2377, 2425, 2474, 2546, 2612, 2850, 2907, 2959, 2991, 2922]
 windows = [2337, 2426, 2475, 2547, 2613, 2850, 2906, 2957, 2989]
 
@@ -47,7 +47,7 @@ def multiplyList(list, meanToHundred):
 	return listReturning
 
 
-with open ('accel_x_dimension_accuracy_test_weightsDif.csv', 'w') as csvfile:
+with open ('accel_x_dimension_accuracy_test_weightsDif100.csv', 'w') as csvfile:
 	filewriter = csv.writer(csvfile)
 	filewriter.writerow(["Epochs", "weight", "d1", "d2", "d3",  "Activity 1","MSE",  "Activity 2","MSE", " ity 3", "MSE", "Activity 4", "MSE", "Activity 5", "MSE", "Activity 6","MSE",  "Activity 7", "MSE", "Activity 8", "MSE", "overall average", "MSE"])
 
@@ -81,7 +81,7 @@ with open ('accel_x_dimension_accuracy_test_weightsDif.csv', 'w') as csvfile:
 	#C:\Users\tomat\OneDrive\Documents\GitHub\tsgan\alg\gain\Mass run small architectures\Imputed files
 
 					#string2 = "Mass run small architectures\\Imputed files\\accell_x_imputed_test_weighted" + str(weight) +"_d1_4n" + "_d2_"+ str(dimension2) + "_d3_"+str(dimension3)+"_epoches_"+str(epoch)+".csv"
-					string2 = "accell_x_imputed_test_weighted10"+"_d1_4n" + "_d2_"+ str(dimension2) + "_d3_"+str(dimension3)+"_epoches_"+str(epoch)+"_weightMult_" + str(weight)+".csv"
+					string2 = "accell_x_imputed_test_weighted100"+"_d1_4n" + "_d2_"+ str(dimension2) + "_d3_"+str(dimension3)+"_epoches_"+str(epoch)+"_weightMult_" + str(weight)+".csv"
 					print(string2)
 					
 
