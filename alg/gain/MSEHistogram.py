@@ -104,57 +104,58 @@ for epoch in epoches:
 
 				plt = None
 				
+				binWidth = 1
 				import matplotlib.pyplot as plt
 				plt.title("activity8 " + str(epoch))
-				plt.hist(activity8)
+				plt.hist(activity8, bins=range(int(min(activity8)), int(max(activity8)) + binWidth, binWidth), edgecolor="yellow", color = "brown")
 				plt.show()
 				plt = None
 
 				import matplotlib.pyplot as plt
 				plt.title("activity7 " + str(epoch))
-				plt.hist(activity7)
+				plt.hist(activity8, bins=range(int(min(activity7)), int(max(activity7)) + binWidth, binWidth), edgecolor="yellow", color = "brown")
 				plt.show()
 				plt = None
 
 				import matplotlib.pyplot as plt
 				plt.title("activity6 " + str(epoch))
-				plt.hist(activity6)
+				plt.hist(activity8, bins=range(int(min(activity6)), int(max(activity6)) + binWidth, binWidth), edgecolor="yellow", color = "brown")
 				plt.show()
 				plt = None
 
 
 				import matplotlib.pyplot as plt
 				plt.title("activity5 " + str(epoch))
-				plt.hist(activity5)
+				plt.hist(activity8, bins=range(int(min(activity5)), int(max(activity5)) + binWidth, binWidth), edgecolor="yellow", color = "brown")
 				plt.show()
 
 				plt = None
 
 				import matplotlib.pyplot as plt
 				plt.title("activity4 " + str(epoch))
-				plt.hist(activity4)
+				plt.hist(activity8, bins=range(int(min(activity4)), int(max(activity4)) + binWidth, binWidth), edgecolor="yellow", color = "brown")
 				plt.show()
 				plt = None
 
 
 				import matplotlib.pyplot as plt
 				plt.title("activity3 " + str(epoch))
-				plt.hist(activity3)
+				plt.hist(activity8, bins=range(int(min(activity3)), int(max(activity3)) + binWidth, binWidth), edgecolor="yellow", color = "brown")
 				plt.show()
 				plt = None
 
 
 				import matplotlib.pyplot as plt
 				plt.title("activity2 " + str(epoch))
-				plt.hist(activity2)
+				plt.hist(activity8, bins=range(int(min(activity2)), int(max(activity2)) + binWidth, binWidth), edgecolor="yellow", color = "brown")
 				plt.show()
 				plt = None
 
-				import matplotlib.pyplot as plt
-				plt.title("activity1 " + str(epoch))
-				plt.hist(activity1)
-				plt.show()
-				plt = None
+				# import matplotlib.pyplot as plt
+				# plt.title("activity1 " + str(epoch))
+				# plt.hist(activity8, bins=range(int(min(activity1)), int(max(activity1)) + binWidth, binWidth), edgecolor="yellow", color = "brown")
+				# plt.show()
+				# plt = None
 
 
 							# df = None
