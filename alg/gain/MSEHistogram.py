@@ -14,11 +14,21 @@ def stringToList(string):
     listRes = list(string.split(","))
     return listRes
 
-windows = [2337, 2426, 2475, 2547, 2613, 2850, 2906, 2957, 2988]
+#windows = [2337, 2426, 2475, 2547, 2613, 2850, 2906, 2957, 2988]
+windows = [2337, 2988]
 dimensionsTested2 = [2]
 dimensionsTested3 = [2]
 weight = 100
 epoches = [1, 501, 1001, 1501, 2001, 2501, 3001, 3501, 4001]
+activity1 = []
+activity2 = []
+activity3 = []
+activity4 = []
+activity5 = []
+activity6 = []
+activity7 = []
+activity8 = []
+whole = []
 
 
 for epoch in epoches:
@@ -44,20 +54,21 @@ for epoch in epoches:
 				activity6 = []
 				activity7 = []
 				activity8 = []
+				whole = []
 
 		
 
 				string2 = "accell_x_imputed_test_weighted100" +"_d1_4n" + "_d2_"+ str(dimension2) + "_d3_"+str(dimension3)+"_epoches_"+str(epoch)+"_weightMult_" + str(weight)+".csv"
 
-				for windowsIndex in range(8):
+				for windowsIndex in range(windows[0], windows[1]):
 					print("reached" + str(dimension2) + str(dimension3) + " " + str(windowsIndex))
 
-					imputedCSV = linecache.getline(string2, windows[windowsIndex])
+					imputedCSV = linecache.getline(string2, windowsIndex)
 					imputedCSV = stringToList(imputedCSV)
 					imputedCSV = list(map(float, imputedCSV))
 					dimension = len(imputedCSV)
 
-					imputedCSV1 = linecache.getline(string2, windows[windowsIndex]+2)
+					imputedCSV1 = linecache.getline(string2, windowsIndex+2)
 					imputedCSV1 = stringToList(imputedCSV1)
 					imputedCSV1 = list(map(float, imputedCSV1))
 					arrayMSE = []
@@ -68,11 +79,11 @@ for epoch in epoches:
 
 					if(imputedCSV != imputedCSV1):
 
-						refereceCSV = linecache.getline('accel_x_train_ref.csv', windows[windowsIndex])
+						refereceCSV = linecache.getline('accel_x_train_ref.csv', windowsIndex)
 						refereceCSV = stringToList(refereceCSV)
 						refereceCSV = list(map(float, refereceCSV))
 
-						trainOrder = linecache.getline('train_order.csv', windows[windowsIndex])
+						trainOrder = linecache.getline('train_order.csv', windowsIndex)
 						trainOrder = stringToList(trainOrder)
 						trainOrder = list(map(float, trainOrder))
 
